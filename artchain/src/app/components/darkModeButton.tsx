@@ -15,17 +15,19 @@ export default function darkModeButton() {
       onClick={toggleModoClaro}
     >
       <div
-        className={`bg-white w-6 h-6 rounded-full
+        className={`bg-white w-6 h-6 rounded-full relative ${
+          modoClaro ? "animacaoLeft" : "animacaoRight"
+        }
        `}
       ></div>
       <CiLight
         className={`absolute w-5 h-5 text-white left-2 top-1/2 transform -translate-y-1/2 transition-opacity ${
-          modoClaro ? "opacity-0" : "opacity-100"
+          modoClaro ? "opacity-100" : "opacity-0"
         }`}
       />
       <CiDark
         className={`absolute text-white right-2 w-5 h-5 top-1/2 transform -translate-y-1/2 transition-opacity ${
-          modoClaro ? "opacity-100" : "opacity-0"
+          modoClaro ? "opacity-0" : "opacity-100"
         }`}
       />
     </div>

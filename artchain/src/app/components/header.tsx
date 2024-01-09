@@ -6,11 +6,11 @@ import { IoIosArrowDown } from "react-icons/io";
 import DarkModeButton from "./darkModeButton";
 export default function Header() {
   return (
-    <header className="shadow-sl border-b-2 border-gray-200 flex items-center justify-evenly w-full py-4 px-16">
+    <header className="shadow-sl border-b-2 border-gray-200 flex items-center justify-evenly w-full py-4 px-2 ">
       <Link href="/">
         <Image
-          height={50}
-          width={50}
+          height={55}
+          width={55}
           alt="Logo Marketplace"
           src="/logo.jpg"
           className="rounded cursor-pointer"
