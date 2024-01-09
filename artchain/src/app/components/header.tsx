@@ -6,7 +6,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import DarkModeButton from "./darkModeButton";
 export default function Header() {
   return (
-    <header className="shadow-sl border-b-2 border-gray-200 flex items-center justify-evenly w-full py-4 px-2 ">
+    <header className="shadow-sl border-b border-gray-200 flex items-center justify-evenly w-full py-4 px-2 ">
       <Link href="/">
         <Image
           height={55}
@@ -38,7 +38,7 @@ export default function Header() {
         SHOP
       </Link>
       <DarkModeButton></DarkModeButton>
-      <button className="ease-linear duration-150 flex items-center border-1 border border-purple-900 justify-center rounded bg-white px-3 py-2 hover:bg-purple-900 hover:text-white hover:shadow-md ">
+      <button className="ease-linear duration-150 flex items-center border border-purple-900 justify-center rounded bg-white px-3 py-2 hover:bg-purple-900 hover:text-white hover:shadow-md ">
         <p>Connect Wallet</p>
       </button>
     </header>
