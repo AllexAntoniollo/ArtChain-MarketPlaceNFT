@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-import HoverDiv from "./components/hoverDiv";
+import HoverDiv from "../components/hoverDiv";
 
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
 import Image from "next/image";
-export default function Shop() {
+export default function Sell() {
   return (
     <main className="">
       <h1>Shop</h1>

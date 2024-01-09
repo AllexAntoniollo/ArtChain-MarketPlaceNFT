@@ -20,7 +20,10 @@ export default function Mint() {
           </div>
         </div>
       </section>
-      <section className="bg-rose-50 align justify-center py-10 flex">
+      <section
+        style={{ backgroundColor: "#556B2F " }}
+        className="align justify-center py-10 flex"
+      >
         <form className="flex px-10 flex-col w-1/2 items-center py-4 bg-white relative bottom-20 border">
           <h1 className="text-2xl">Create Your NFT</h1>
           <input

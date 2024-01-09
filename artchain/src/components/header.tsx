@@ -34,8 +34,8 @@ export default function Header() {
       <Link className="text-xl font-medium tracking-looser" href="/mint">
         MINT
       </Link>
-      <Link className="text-xl font-medium tracking-looser" href="/shop">
-        SHOP
+      <Link className="text-xl font-medium tracking-looser" href="/sell">
+        SELL
       </Link>
       <DarkModeButton></DarkModeButton>
       <button className="ease-linear duration-150 flex items-center border border-purple-900 justify-center rounded bg-white px-3 py-2 hover:bg-purple-900 hover:text-white hover:shadow-md ">
