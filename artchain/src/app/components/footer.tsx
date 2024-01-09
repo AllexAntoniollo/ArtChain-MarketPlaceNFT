@@ -40,7 +40,7 @@ export default function Footer() {
             </button>
           </div>
         </div>
-        <div className="border-t py-2 flex justify-center items-center column">
+        <div className="border-t py-2 flex text-white justify-center items-center column">
           <p>Copyright Allex Antoniollo, 2024</p>
         </div>
       </footer>

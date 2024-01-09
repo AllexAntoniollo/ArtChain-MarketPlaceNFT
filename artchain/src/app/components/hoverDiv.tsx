@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from "react";
 
 const HoverDiv = () => {
@@ -10,7 +11,9 @@ const HoverDiv = () => {
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
     >
-      <div className={"hiddenDiv"}>View Details</div>
+      <Link href="/details" className={"hiddenDiv"}>
+        View Details
+      </Link>
     </div>
   );
 };
