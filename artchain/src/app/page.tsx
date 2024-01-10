@@ -7,12 +7,6 @@ export default function Home() {
     <>
       <BootstrapCarousel></BootstrapCarousel>
 
-      <section className="py-12 mx-9 flex justify-center">
-        <div className="w-14 rounded h-1 bg-gray-300 mx-1 cursor-pointer"></div>
-        <div className="w-14 rounded h-1 bg-gray-300 mx-1 cursor-pointer"></div>
-        <div className="w-14 rounded h-1 bg-gray-300 mx-1 cursor-pointer"></div>
-        <div className="w-14 rounded h-1 bg-gray-300 mx-1 cursor-pointer"></div>
-      </section>
       <section className="rounded-md mx-9 border p-8">
         <h1 className="border-b text-3xl font-medium pb-3">Latest NFTs</h1>
         <div className="flex flex-wrap mt-6">

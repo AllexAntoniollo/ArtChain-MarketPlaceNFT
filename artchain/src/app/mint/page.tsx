@@ -1,11 +1,7 @@
 export default function Mint() {
   return (
     <main>
-      <section className="flex justify-center relative pb-24">
-        <div className="blur">
-          <h1>Allex</h1>
-        </div>
-
+      <section className="flex justify-center relative bg-custom pb-24">
         <div className="grow max-w-xs mr-4 mt-5 rounded-2xl bg-white border ease-linear duration-200 relative p-2">
           <div className="w-full rounded-lg h-96  bg-red-800"></div>
           <div className="ml-3">
@@ -14,10 +10,7 @@ export default function Mint() {
           </div>
         </div>
       </section>
-      <section
-        style={{ backgroundColor: "#556B2F " }}
-        className="align justify-center py-10 flex"
-      >
+      <section className="align justify-center py-10 bg-green-400 flex">
         <form className="flex px-10 flex-col w-1/2 items-center py-4 bg-white relative bottom-20 border">
           <h1 className="text-2xl">Create Your NFT</h1>
           <input
@@ -34,7 +27,12 @@ export default function Mint() {
             className="outline-none border rounded pl-2 py-2 w-full mt-4"
             type="file"
           />
-          <button className="px-6 py-3 rounded hover:bg-slate-600 text-white bg-slate-500 w-2/3 mt-4">
+          <button
+            style={{
+              backgroundColor: "#6D57FC",
+            }}
+            className="px-6 py-3 rounded  text-white w-2/3 mt-4"
+          >
             MINT
           </button>
         </form>
