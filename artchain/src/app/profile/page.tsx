@@ -25,13 +25,13 @@ export default function Profile() {
       </section>
       <section>
         <div className="flex mx-16 py-5">
-          <h1 className="border-b grow text-center text-gray-600 hover:border-purple-800 hover hover:text-purple-800 py-7">
+          <h1 className="border-b cursor-pointer grow text-center text-gray-600 hover:border-purple-800 hover hover:text-purple-800 py-7">
             COLLECTIBLES
           </h1>
-          <h1 className="grow text-gray-600 hover:border-purple-800 hover hover:text-purple-800 border-b text-center py-7">
+          <h1 className="grow cursor-pointer text-gray-600 hover:border-purple-800 hover hover:text-purple-800 border-b text-center py-7">
             CREATED
           </h1>
-          <h1 className="grow text-gray-600 hover:border-purple-800 hover hover:text-purple-800 border-b text-center py-7">
+          <h1 className="grow cursor-pointer text-gray-600 hover:border-purple-800 hover hover:text-purple-800 border-b text-center py-7">
             ON SALE
           </h1>
         </div>

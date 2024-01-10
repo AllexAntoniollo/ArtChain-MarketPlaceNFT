@@ -1,7 +1,7 @@
 export default function Mint() {
   return (
     <main>
-      <section className="flex justify-center pb-24">
+      <section className="flex justify-center relative pb-24">
         <div className="blur">
           <h1>Allex</h1>
         </div>
@@ -11,12 +11,6 @@ export default function Mint() {
           <div className="ml-3">
             <p className="font-light text-slate-700 text-sm mt-2">by: Allex</p>
             <p className="text-xl mt-2">Shiba Smile</p>
-          </div>
-          <div className="flex px-3 rounded bg-gray-100 mt-3 text-sm">
-            <div>
-              <p className="font-light text-slate-700">Price:</p>
-              <p>20 MATIC</p>
-            </div>
           </div>
         </div>
       </section>
@@ -35,11 +29,6 @@ export default function Mint() {
             type="text"
             className="outline-none border rounded pl-2 py-2 w-full mt-4"
             placeholder="Author"
-          />
-          <input
-            type="number"
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
-            placeholder="Price (in Matic)"
           />
           <input
             className="outline-none border rounded pl-2 py-2 w-full mt-4"
