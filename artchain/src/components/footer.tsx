@@ -5,7 +5,10 @@ import { FaXTwitter } from "react-icons/fa6";
 export default function Footer() {
   return (
     <>
-      <footer className="border-t p-16 pb-0 bg-purple-500">
+      <footer
+        style={{ backgroundColor: "#1968B7" }}
+        className="border-t p-16 pb-0 "
+      >
         <div className="flex">
           <Image
             height={150}
@@ -20,8 +23,14 @@ export default function Footer() {
           </h1>
         </div>
         <div className="flex mt-4 mb-8">
-          <FaXTwitter className="cursor-pointer bg-purple-600 rounded hover:border-white p-2 mr-3 size-12 text-white "></FaXTwitter>
-          <FaDiscord className="bg-purple-600 p-2 rounded hover:border-white cursor-pointer size-12 text-white"></FaDiscord>
+          <FaXTwitter
+            style={{ backgroundColor: "#2081E2" }}
+            className="cursor-pointer rounded hover:border-white p-2 mr-3 size-12 text-white "
+          ></FaXTwitter>
+          <FaDiscord
+            style={{ backgroundColor: "#2081E2" }}
+            className=" p-2 rounded hover:border-white cursor-pointer size-12 text-white"
+          ></FaDiscord>
         </div>
         <div className="border-t py-8">
           <h1 className="text-2xl text-white">Stay in the loop</h1>
@@ -35,7 +44,10 @@ export default function Footer() {
               className="outline-none w-1/2 ease-linear duration-100 shadow-sl hover:shadow-lg focus:border-2 rounded-lg border py-2 px-4 mr-3"
               placeholder="Your email address"
             />
-            <button className="rounded-lg ease-linear duration-100 hover:bg-purple-600 font-semibold text-white bg-purple-400 px-6 py-2">
+            <button
+              style={{ backgroundColor: "#2081E2" }}
+              className="rounded-lg ease-linear duration-100 hover:bg-blue-700 font-semibold text-white px-6 py-2"
+            >
               Sign up
             </button>
           </div>

@@ -6,16 +6,14 @@ import { IoIosArrowForward } from "react-icons/io";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
-const Carousel = ({
-  data,
-}: {
-  data: {
-    image: string;
-  }[];
-}) => {
-  // State and Ref initialization
+const Carousel = () => {
+  const data = [
+    { image: "https://picsum.photos/seed/random101/500/500" },
+    { image: "https://picsum.photos/seed/random102/500/500" },
+    { image: "https://picsum.photos/seed/random103/500/500" },
+  ];
   const [currentImg, setCurrentImg] = useState(0);
-  const [activeImage, setActiveImage] = useState(0); // Novo estado para a imagem ativa
+  const [activeImage, setActiveImage] = useState(0);
 
   const [carouselSize, setCarouselSize] = useState({ width: 0, height: 0 });
   const carouselRef = useRef(null);
