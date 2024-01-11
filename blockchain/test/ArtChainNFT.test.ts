@@ -5,30 +5,45 @@ import { ethers } from "hardhat";
 describe("ArtChainNFT", function () {
   async function deployFixture() {
     const [owner, otherAccount] = await ethers.getSigners();
-
-    const artChain = await ethers.getContractFactory("ArtChain");
-    const ArtChain = await artChain.deploy();
-    const marketAddress = await ArtChain.getAddress();
-
     const artChainNFT = await ethers.getContractFactory("ArtChainNFT");
-    const ArtChainNFT = await artChainNFT.deploy(marketAddress);
-    const collectionAddress = await ArtChainNFT.getAddress();
+    const ArtChainNFT = await artChainNFT.deploy();
 
     return {
-      ArtChain,
-      marketAddress,
       ArtChainNFT,
-      collectionAddress,
       owner,
       otherAccount,
     };
   }
 
-  it("Should ...", async function () {
-    const { ArtChain, collectionAddress, ArtChainNFT } = await loadFixture(
+  it("Should mint", async function () {
+    const { ArtChainNFT } = await loadFixture(deployFixture);
+
+    await ArtChainNFT.safeMint("metadata");
+
+    await expect(await ArtChainNFT.tokenURI(0)).to.equal(
+      "https://gateway/metadata"
+    );
+  });
+
+  it("Should supports interface", async function () {
+    const { ArtChainNFT, otherAccount, owner } = await loadFixture(
       deployFixture
     );
 
-    await expect(1).to.be.equal(1);
+    expect(await ArtChainNFT.supportsInterface("0x80ac58cd")).to.equal(
+      true,
+      "Can't support interface"
+    );
+  });
+
+  it("Should increase balance", async function () {
+    const { ArtChainNFT, otherAccount, owner } = await loadFixture(
+      deployFixture
+    );
+
+    await ArtChainNFT.safeMint("metadata");
+    await ArtChainNFT.safeMint("metadata2");
+
+    expect(await ArtChainNFT.balanceOf(owner)).to.equal(2);
   });
 });

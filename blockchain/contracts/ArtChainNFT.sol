@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
-contract ArtChain is ERC721, ERC721Enumerable, ERC721URIStorage {
+contract ArtChainNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
     uint256 private _nextTokenId;
 
     constructor()
@@ -15,7 +15,7 @@ contract ArtChain is ERC721, ERC721Enumerable, ERC721URIStorage {
     {}
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://gateway";
+        return "https://gateway/";
     }
 
     function safeMint(string memory uri) public {
