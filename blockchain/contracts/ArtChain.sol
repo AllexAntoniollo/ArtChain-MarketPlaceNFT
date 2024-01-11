@@ -39,7 +39,6 @@ contract ArtChain is ReentrancyGuard {
          marketItems[_marketId] =  MarketItem(
             _marketId, nftContract, tokenId, payable(msg.sender), payable(address(0)), price, false
          );
-        IERC721(nftContract).approve(address(this), tokenId);
         IERC721(nftContract).transferFrom(msg.sender,address(this),tokenId);
         emit MarketItemCreated(_marketId, nftContract, tokenId, msg.sender, price);
         payable(owner).transfer(listingPrice);
@@ -47,10 +46,11 @@ contract ArtChain is ReentrancyGuard {
 
 
     function createMarketSale(address nftContract, uint marketId) public payable nonReentrant{
+        
         uint price = marketItems[marketId].price;
         uint tokenId = marketItems[marketId].tokenId;
-
         require(msg.value == price, "Please submit the asking price in order to complete purchase");
+
         marketItems[marketId].seller.transfer(msg.value);
 
         ++_marketSold;

@@ -12,10 +12,11 @@ contract ArtChainNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
     constructor()
         ERC721("ArtChain", "ART")
 
-    {}
+    {
+    }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://gateway/";
+        return "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/QmU4brx9ooQs8iYdSDDuXkoaY61w6cpHZZn4Ku9Q3LtKCN/";
     }
 
     function safeMint(string memory uri) public {
@@ -56,4 +57,5 @@ contract ArtChainNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
     {
         return super.supportsInterface(interfaceId);
     }
+    
 }
