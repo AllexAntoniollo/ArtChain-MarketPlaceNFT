@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 contract ArtChain is ReentrancyGuard {
 
 
-    uint private listingPrice = 1 ether;
+    uint private listingPrice = 0.01 ether;
         struct MarketItem{
         uint itemId;
         address nftContract;
@@ -33,7 +33,7 @@ contract ArtChain is ReentrancyGuard {
     event MarketItemCreated(uint indexed marketId, address indexed nftContract, uint indexed tokenId, address seller, uint price);
 
     function createMarketItem(uint price, address nftContract, uint tokenId) public payable nonReentrant{
-        require(msg.value >= listingPrice, "The cost of listing price is 1 Matic");
+        require(msg.value >= listingPrice, "The cost of listing price is 0.01 Matic");
         require(price > 0, "The price must be greather than 0");
         ++_marketId;
          marketItems[_marketId] =  MarketItem(

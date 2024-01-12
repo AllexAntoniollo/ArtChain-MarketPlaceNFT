@@ -68,7 +68,7 @@ describe("ArtChain", function () {
       ArtChain.createMarketItem(auctionPrice, addressNFT, 0, {
         value: listingPrice,
       })
-    ).to.be.revertedWith("The cost of listing price is 1 Matic");
+    ).to.be.revertedWith("The cost of listing price is 0.01 Matic");
   });
   it("Should created a sale", async function () {
     const { ArtChain, ArtChainNFT, addressNFT, otherAccount } =
