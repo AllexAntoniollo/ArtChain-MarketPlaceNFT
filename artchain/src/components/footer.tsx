@@ -23,14 +23,8 @@ export default function Footer() {
           </h1>
         </div>
         <div className="flex mt-4 mb-8">
-          <FaXTwitter
-            style={{ backgroundColor: "#2081E2" }}
-            className="cursor-pointer rounded hover:border-white p-2 mr-3 size-12 text-white "
-          ></FaXTwitter>
-          <FaDiscord
-            style={{ backgroundColor: "#2081E2" }}
-            className=" p-2 rounded hover:border-white cursor-pointer size-12 text-white"
-          ></FaDiscord>
+          <FaXTwitter className="cursor-pointer ease-linear  duration-100 rounded bg-blue-500 hover:bg-blue-600 hover:border-white p-2 mr-3 size-12 text-white "></FaXTwitter>
+          <FaDiscord className=" p-2 rounded ease-linear  duration-100 bg-blue-500 hover:bg-blue-600 hover:border-white cursor-pointer size-12 text-white"></FaDiscord>
         </div>
         <div className="border-t py-8">
           <h1 className="text-2xl text-white">Stay in the loop</h1>
@@ -44,10 +38,7 @@ export default function Footer() {
               className="outline-none w-1/2 ease-linear duration-100 shadow-sl hover:shadow-lg focus:border-2 rounded-lg border py-2 px-4 mr-3"
               placeholder="Your email address"
             />
-            <button
-              style={{ backgroundColor: "#2081E2" }}
-              className="rounded-lg ease-linear duration-100 hover:bg-blue-700 font-semibold text-white px-6 py-2"
-            >
+            <button className="rounded-lg ease-linear  duration-100 bg-blue-500 hover:bg-blue-600 font-semibold text-white px-6 py-2">
               Sign up
             </button>
           </div>

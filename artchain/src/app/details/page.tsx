@@ -21,6 +21,11 @@ export default function Details() {
           <p className="mt-5">Status: sold</p>
           <p className="mt-5">Price: 20</p>
           <p className="mt-5">I'm reaching for the random...</p>
+          <form className="mt-8">
+            <button className="p-4 min-w-48 ease-linear  duration-100 bg-slate-600 hover:bg-slate-700 border-white  rounded-lg text-white font-semibold">
+              BUY NOW
+            </button>
+          </form>
         </div>
       </section>
     </main>

@@ -6,7 +6,9 @@ async function uploadMetadata(metadata: any): Promise<string> {
     url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
     data: {
       pinataContent: metadata,
-      pinataMetadata: { name: metadata.name + ".json" },
+      pinataMetadata: {
+        name: metadata.name + ".json",
+      },
     },
     headers: {
       pinata_api_key: `${process.env.API_KEY}`,

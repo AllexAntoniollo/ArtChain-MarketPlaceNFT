@@ -5,9 +5,10 @@ export type NewNFT721 = {
   name?: string;
   image?: File;
   description?: string;
+  author?: string;
 };
 
-async function uplaodFiled(file: File): Promise<string> {
+async function uploadFiled(file: File): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -37,24 +38,22 @@ type Metadata = {
   name?: string;
   description?: string;
   image?: string;
+  author?: string;
 };
 
 export async function uploadAndCreate(nft: NewNFT721): Promise<number> {
-  //Campos obrigatórios
-  if (!nft.image) {
+  if (!nft.image || !nft.name || !nft.description || !nft.author) {
     throw new Error("All fields are required");
   }
 
-  //Upload da imagem
-  const uri = await uplaodFiled(nft.image);
+  const uri = await uploadFiled(nft.image);
 
-  //Criação dos metadados
   const metadataUri = await uploadMetadata({
     name: nft.name,
     description: nft.description,
     image: uri,
   });
-  //Verificar se a metadataUri está salvando com sucesso
+  console.log(metadataUri);
 
   //Mint
 
