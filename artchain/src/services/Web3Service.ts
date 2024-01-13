@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ethers } from "ethers";
+import { EventLog, ethers } from "ethers";
 import MarketABI from "./Market.abi.json";
 import Erc721ABI from "./Erc721.abi.json";
 import Erc1155ABI from "./Erc1155.abi.json";
@@ -11,30 +11,6 @@ const ERC1155 = `${process.env.ERC1155}`;
 function getProvider(): ethers.BrowserProvider {
   if (!window.ethereum) throw new Error("No MetaMask found");
   return new ethers.BrowserProvider(window.ethereum);
-}
-
-function getContract(provider?: ethers.BrowserProvider): ethers.Contract {
-  if (!provider) provider = getProvider();
-  return new ethers.Contract(
-    MARKETPLACE_ADDRESS,
-    MarketABI as ethers.InterfaceAbi,
-    provider
-  );
-}
-
-async function getContractSigner(
-  provider?: ethers.BrowserProvider
-): Promise<ethers.Contract> {
-  if (!provider) provider = getProvider();
-  const signer = await provider.getSigner(
-    localStorage.getItem("wallet") || undefined
-  );
-  const contract = new ethers.Contract(
-    MARKETPLACE_ADDRESS,
-    MarketABI as ethers.InterfaceAbi,
-    provider
-  );
-  return contract.connect(signer) as ethers.Contract;
 }
 
 export async function doLogin() {
@@ -88,6 +64,19 @@ type Metadata = {
   author?: string;
 };
 
+async function createItem(url: string): Promise<number> {
+  const provider = await getProvider();
+  const signer = await provider.getSigner();
+
+  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, signer);
+  const mintTx = await collectionContract.safeMint(url);
+  const mintTxReceipt: ethers.ContractTransactionReceipt = await mintTx.wait();
+  let eventLog = mintTxReceipt.logs[0] as EventLog;
+  const tokenId = Number(eventLog.args[2]);
+
+  return tokenId;
+}
+
 export async function uploadAndCreate(nft: NewNFT721): Promise<number> {
   if (!nft.image || !nft.name || !nft.description || !nft.author) {
     throw new Error("All fields are required");
@@ -98,21 +87,52 @@ export async function uploadAndCreate(nft: NewNFT721): Promise<number> {
   const metadataUri = await uploadMetadata({
     name: nft.name,
     description: nft.description,
+    author: nft.author,
     image: uri,
   });
-  console.log(metadataUri);
 
-  //Mint
+  const tokenId = createItem(metadataUri);
 
-  return 1;
+  return tokenId;
 }
 
-type NftSale = {
-  price?: number;
-  tokenId: number;
-  nftAddress: string;
+export type SellNewNFT = {
+  price?: string;
+  address?: string;
+  tokenId?: string;
 };
 
-export async function sellNFT(nft: NftSale): Promise<number> {
+export async function sellNFT(nft: SellNewNFT): Promise<number> {
+  if (!nft.address || !nft.price || !nft.tokenId) {
+    throw new Error("All fields are required");
+  }
+  const provider = await getProvider();
+  const signer = await provider.getSigner();
+  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, signer);
+  await collectionContract.approve();
+
+  const marketContract = new ethers.Contract(
+    MARKETPLACE_ADDRESS,
+    MarketABI,
+    signer
+  );
+  const listingPrice = ethers.toBigInt(0.1).toString();
+
+  const tx = await marketContract.createMarketItem(
+    ethers.toBigInt(nft.price),
+    nft.address,
+    ethers.toBigInt(nft.tokenId),
+    { value: listingPrice }
+  );
+
+  const txReceipt: ethers.ContractTransactionReceipt = await tx.await();
+
+  let eventLog = txReceipt.logs.find(
+    (l) => (l as EventLog).eventName === "MarketItemCreated"
+  ) as EventLog;
+  const itemId = Number(eventLog.args[0]);
+
+  return itemId;
+
   return 1;
 }

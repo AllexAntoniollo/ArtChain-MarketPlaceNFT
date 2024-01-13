@@ -5,7 +5,6 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
 import { doLogin } from "@/services/Web3Service";
 import DarkModeButton from "./darkModeButton";
-import { RxExit } from "react-icons/rx";
 
 import { useState } from "react";
 export default function Header() {
@@ -68,15 +67,12 @@ export default function Header() {
       ) : (
         <>
           <Link
-            className="bg-purple-900 text-white rounded p-3"
+            className="hover:bg-gray-50 flex bg-white rounded-xl items-center font-medium p-3"
             href="/profile"
           >
-            You're Connected
+            <div className="mr-2 rounded-full bg-green-200 w-7 h-7"></div>
+            <div>{wallet.slice(0, 6) + "..." + wallet.slice(-3)}</div>
           </Link>
-          <RxExit
-            onClick={btnLogout}
-            className="cursor-pointer size-8"
-          ></RxExit>
         </>
       )}
     </header>

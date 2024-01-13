@@ -7,22 +7,21 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 contract ArtChainNFT is ERC721, ERC721Enumerable, ERC721URIStorage {
-    uint256 private _nextTokenId;
+    uint256 private _nextTokenId = 0;
 
     constructor()
         ERC721("ArtChain", "ART")
-
     {
     }
 
     function _baseURI() internal pure override returns (string memory) {
-        return "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/QmU4brx9ooQs8iYdSDDuXkoaY61w6cpHZZn4Ku9Q3LtKCN/";
+        return "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/";
     }
 
     function safeMint(string memory uri) public {
-        uint256 tokenId = _nextTokenId++;
-        _safeMint(msg.sender, tokenId);
-        _setTokenURI(tokenId, uri);
+        ++_nextTokenId;
+        _safeMint(msg.sender, _nextTokenId);
+        _setTokenURI(_nextTokenId, uri);
     }
 
     function _update(address to, uint256 tokenId, address auth)

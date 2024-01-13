@@ -1,6 +1,5 @@
 "use client";
 import { NewNFT721, uploadAndCreate } from "@/services/Web3Service";
-import { url } from "inspector";
 import { ChangeEvent, useState } from "react";
 
 export default function Mint() {
@@ -31,7 +30,7 @@ export default function Mint() {
     await uploadAndCreate(nft)
       .then((itemId) => {
         setMessage("NFT created successfully!");
-        // window.location.href = "/details/" + itemId;
+        window.location.href = "/details/" + itemId;
       })
       .catch((err) => setMessage(err.msg));
   }
