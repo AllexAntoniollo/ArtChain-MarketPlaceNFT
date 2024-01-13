@@ -106,17 +106,20 @@ export async function sellNFT(nft: SellNewNFT): Promise<number> {
   if (!nft.address || !nft.price || !nft.tokenId) {
     throw new Error("All fields are required");
   }
+
   const provider = await getProvider();
   const signer = await provider.getSigner();
   const collectionContract = new ethers.Contract(ERC721, Erc721ABI, signer);
-  await collectionContract.approve();
+
+  await collectionContract.approve(MARKETPLACE_ADDRESS, nft.tokenId);
 
   const marketContract = new ethers.Contract(
     MARKETPLACE_ADDRESS,
     MarketABI,
     signer
   );
-  const listingPrice = ethers.toBigInt(0.1).toString();
+
+  const listingPrice = ethers.parseUnits("0.1", "ether").toString();
 
   const tx = await marketContract.createMarketItem(
     ethers.toBigInt(nft.price),
@@ -126,10 +129,13 @@ export async function sellNFT(nft: SellNewNFT): Promise<number> {
   );
 
   const txReceipt: ethers.ContractTransactionReceipt = await tx.await();
+  console.log("teste5");
 
   let eventLog = txReceipt.logs.find(
     (l) => (l as EventLog).eventName === "MarketItemCreated"
   ) as EventLog;
+  console.log("teste6");
+
   const itemId = Number(eventLog.args[0]);
 
   return itemId;

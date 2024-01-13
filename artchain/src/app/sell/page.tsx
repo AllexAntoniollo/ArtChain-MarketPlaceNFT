@@ -2,10 +2,10 @@
 import { sellNFT, SellNewNFT } from "@/services/Web3Service";
 import { useState } from "react";
 import { ChangeEvent } from "react";
-
+import { NewMessage, Message } from "@/components/message";
 export default function Sell() {
   const [nft, setNft] = useState<SellNewNFT>({});
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<NewMessage>({} as NewMessage);
 
   function onInputChange(evt: ChangeEvent<HTMLInputElement>) {
     setNft((prevState) => ({
@@ -15,19 +15,21 @@ export default function Sell() {
   }
 
   async function sell() {
-    setMessage("nft");
-    console.log(message);
-
     if (!nft) {
       return;
     }
-    setMessage("Connecting MetaMask...wait...");
+
+    setMessage({ type: "load", message: "Connecting MetaMask...wait..." });
     await sellNFT(nft)
       .then((itemId) => {
-        setMessage("NFT has been added on marketplace!");
+        setMessage({
+          type: "successfully",
+          message: "NFT has been added on marketplace!",
+        });
+
         // window.location.href = "/details/" + itemId;
       })
-      .catch((err) => setMessage(err.msg));
+      .catch((err) => setMessage({ message: err.msg, type: "rejected" }));
   }
   return (
     <main>
@@ -44,7 +46,7 @@ export default function Sell() {
             placeholder="Contract Address"
           />
           <input
-            id="id"
+            id="tokenId"
             value={nft.tokenId}
             onChange={onInputChange}
             className="outline-none border rounded pl-2 py-2 w-full mt-4"
@@ -68,13 +70,7 @@ export default function Sell() {
           >
             SELL
           </button>
-          {!message ? (
-            <div className=" bg-neutral-600 px-6 py-3 rounded text-white border mt-12">
-              {message}
-            </div>
-          ) : (
-            ""
-          )}
+          {message.message ? <Message {...message} /> : ""}
         </div>
       </section>
     </main>

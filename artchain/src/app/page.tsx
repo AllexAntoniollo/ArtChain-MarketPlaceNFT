@@ -4,7 +4,6 @@ export default function Home() {
   return (
     <>
       <Carousel></Carousel>
-
       <section className="rounded-md mx-9 border p-8">
         <h1 className="border-b text-3xl font-medium pb-3">Latest NFTs</h1>
         <div className="flex flex-wrap justify-around mt-6">

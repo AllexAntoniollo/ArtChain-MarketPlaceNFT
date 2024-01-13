@@ -1,10 +1,11 @@
 "use client";
 import { NewNFT721, uploadAndCreate } from "@/services/Web3Service";
 import { ChangeEvent, useState } from "react";
+import { NewMessage, Message } from "@/components/message";
 
 export default function Mint() {
   const [nft, setNft] = useState<NewNFT721>({});
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<NewMessage>({} as NewMessage);
 
   function onInputChange(
     evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,16 +24,22 @@ export default function Mint() {
 
   async function mint() {
     if (!nft || !nft.image) {
-      setMessage("Please upload an image before minting.");
+      setMessage({
+        message: "Please upload an image before minting.",
+        type: "rejected",
+      });
       return;
     }
-    setMessage("Connecting MetaMask...wait...");
+    setMessage({ message: "Connecting MetaMask...wait...", type: "load" });
     await uploadAndCreate(nft)
       .then((itemId) => {
-        setMessage("NFT created successfully!");
+        setMessage({
+          message: "NFT created successfully!",
+          type: "successfully",
+        });
         window.location.href = "/details/" + itemId;
       })
-      .catch((err) => setMessage(err.msg));
+      .catch((err) => setMessage({ message: err.msg, type: "rejected" }));
   }
   return (
     <main>
@@ -98,13 +105,7 @@ export default function Mint() {
           >
             MINT NOW
           </button>
-          {message ? (
-            <div className=" bg-neutral-600 px-6 py-3 rounded text-white border mt-12">
-              {message}
-            </div>
-          ) : (
-            ""
-          )}
+          {message.message ? <Message {...message} /> : ""}
         </div>
       </section>
     </main>
