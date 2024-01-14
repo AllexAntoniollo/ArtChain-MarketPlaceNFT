@@ -7,11 +7,14 @@ const HoverDiv = (props: any) => {
 
   return (
     <div
-      className={`container ${isHovered ? "hovered" : ""}`}
+      className={`container  ${isHovered ? "hovered" : ""}`}
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
     >
-      <Link href={"/details/" + props.itemId} className={"hiddenDiv"}>
+      <Link
+        href={"/details/" + props.itemId}
+        className={"hiddenDiv hover:bg-black bg-gray-900"}
+      >
         View Details
       </Link>
     </div>

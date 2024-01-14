@@ -3,6 +3,7 @@ import { EventLog, ethers } from "ethers";
 import MarketABI from "./Market.abi.json";
 import Erc721ABI from "./Erc721.abi.json";
 import Erc1155ABI from "./Erc1155.abi.json";
+import { ContractTransactionReceipt } from "ethers";
 
 const MARKETPLACE_ADDRESS = `${process.env.MARKETPLACE_ADDRESS}`;
 const ERC721 = `${process.env.ERC721}`;
@@ -197,4 +198,30 @@ export async function loadNfts(): Promise<MarketItem[]> {
   if (!items) return {} as MarketItem[];
 
   return items;
+}
+
+export async function buyNft(
+  nftContract: string,
+  marketId: BigInt,
+  value: BigInt
+): Promise<BigInt> {
+  if (!nftContract || !marketId) {
+    throw new Error("All fields are required");
+  }
+
+  const provider = await getProvider();
+  const signer = await provider.getSigner();
+
+  const marketContract = new ethers.Contract(
+    MARKETPLACE_ADDRESS,
+    MarketABI,
+    signer
+  );
+
+  const tx = await marketContract.createMarketSale(nftContract, marketId, {
+    value: value,
+  });
+  await tx.wait();
+
+  return marketId;
 }

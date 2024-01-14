@@ -16,7 +16,7 @@ async function uploadMetadata(metadata: any): Promise<string> {
       "Content-Type": "application/json",
     },
   });
-  return `ipfs://${response.data.IpfsHash}`;
+  return `${response.data.IpfsHash}`;
 }
 
 export async function POST(request: Request) {

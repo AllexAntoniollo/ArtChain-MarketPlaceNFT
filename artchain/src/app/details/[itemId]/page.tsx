@@ -2,19 +2,34 @@
 import { FaRegCopy } from "react-icons/fa6";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { getDetails, MarketItem } from "@/services/Web3Service";
+import { getDetails, MarketItem, buyNft } from "@/services/Web3Service";
 import { ethers } from "ethers";
+import { NewMessage, Message } from "@/components/message";
 
 export default function Details() {
   const params = useParams();
   const itemId = params.itemId;
   const [nft, setNft] = useState<MarketItem>({} as MarketItem);
+  const [message, setMessage] = useState<NewMessage>({} as NewMessage);
 
   useEffect(() => {
     getDetails(Number(itemId))
       .then((nft) => setNft(nft))
       .catch((err) => console.log(err.msg));
   }, [params.itemId]);
+
+  async function buy() {
+    setMessage({ message: "Connecting MetaMask...wait...", type: "load" });
+    await buyNft(nft.nftContract, nft.itemId, nft.price)
+      .then((nftId) => {
+        setMessage({
+          message: "NFT successfully purchased!",
+          type: "successfully",
+        });
+        window.location.href = "/details/" + Number(nftId);
+      })
+      .catch((err) => setMessage({ message: err.msg, type: "rejected" }));
+  }
 
   return (
     <main>
@@ -38,11 +53,16 @@ export default function Details() {
           </p>
 
           <p className="mt-5">I'm reaching for the random...</p>
-          <form className="mt-8">
-            <button className="p-4 min-w-48 ease-linear  duration-100 bg-slate-600 hover:bg-slate-700 border-white  rounded-lg text-white font-semibold">
+          <div className="mt-8">
+            <button
+              disabled={nft.sold}
+              onClick={buy}
+              className="p-4 min-w-48 ease-linear  duration-100 bg-slate-600 hover:bg-slate-700 border-white  rounded-lg text-white font-semibold"
+            >
               BUY NOW
             </button>
-          </form>
+            {message.message ? <Message {...message} /> : ""}
+          </div>
         </div>
       </section>
     </main>

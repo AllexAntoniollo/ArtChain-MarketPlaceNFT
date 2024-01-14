@@ -68,7 +68,7 @@ export default function Mint() {
         </div>
       </section>
       <section className="align justify-center py-10 bg-green-400 flex">
-        <div className="flex px-10 flex-col w-1/2 items-center py-4 bg-white relative bottom-20 border">
+        <div className="flex px-10 flex-col w-1/2 rounded items-center py-4 bg-white relative bottom-20 border">
           <h1 className="text-2xl">Create Your NFT</h1>
           <input
             onChange={onInputChange}

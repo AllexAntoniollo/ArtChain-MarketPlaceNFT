@@ -11,7 +11,7 @@ async function uploadFile(formData: FormData): Promise<string> {
       "Content-Type": "multipart/form-data",
     },
   });
-  return `ipfs://${response.data.IpfsHash}`;
+  return `${response.data.IpfsHash}`;
 }
 
 export async function POST(request: Request) {
