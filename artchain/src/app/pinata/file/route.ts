@@ -1,6 +1,6 @@
 import axios from "axios";
 
-async function uploadFiled(formData: FormData): Promise<string> {
+async function uploadFile(formData: FormData): Promise<string> {
   const response = await axios({
     method: "POST",
     url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
@@ -16,6 +16,6 @@ async function uploadFiled(formData: FormData): Promise<string> {
 
 export async function POST(request: Request) {
   const formData = await request.formData();
-  const uri = await uploadFiled(formData);
+  const uri = await uploadFile(formData);
   return Response.json({ uri });
 }

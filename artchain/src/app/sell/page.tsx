@@ -27,7 +27,7 @@ export default function Sell() {
           message: "NFT has been added on marketplace!",
         });
 
-        // window.location.href = "/details/" + itemId;
+        window.location.href = "/details/" + itemId;
       })
       .catch((err) => setMessage({ message: err.msg, type: "rejected" }));
   }
@@ -63,10 +63,7 @@ export default function Sell() {
           />
           <button
             onClick={sell}
-            style={{
-              backgroundColor: "#6D57FC",
-            }}
-            className="px-6 py-3 rounded text-white w-2/3 mt-4"
+            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded text-white w-2/3 mt-4"
           >
             SELL
           </button>
