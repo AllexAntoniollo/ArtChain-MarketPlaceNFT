@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
-const HoverDiv = () => {
+const HoverDiv = (props: any) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -11,7 +11,7 @@ const HoverDiv = () => {
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
     >
-      <Link href="/details" className={"hiddenDiv"}>
+      <Link href={"/details/" + props.itemId} className={"hiddenDiv"}>
         View Details
       </Link>
     </div>

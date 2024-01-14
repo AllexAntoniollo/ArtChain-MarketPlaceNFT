@@ -184,3 +184,17 @@ export async function getDetails(itemId: number): Promise<MarketItem> {
 
   return market;
 }
+
+export async function loadNfts(): Promise<MarketItem[]> {
+  const provider = await getProvider();
+
+  const marketContract = new ethers.Contract(
+    MARKETPLACE_ADDRESS,
+    MarketABI,
+    provider
+  );
+  const items: MarketItem[] = await marketContract.fetchMarketItems();
+  if (!items) return {} as MarketItem[];
+
+  return items;
+}
