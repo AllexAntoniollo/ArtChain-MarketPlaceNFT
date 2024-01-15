@@ -5,23 +5,21 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
 import { doLogin } from "@/services/Web3Service";
 import DarkModeButton from "./darkModeButton";
-
 import { useState } from "react";
+import { NewMessage, Message } from "../components/message";
 export default function Header() {
   const [wallet, setWallet] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [message, setMessage] = useState<NewMessage>({} as NewMessage);
   async function btnLoginClick() {
     try {
       const result = await doLogin();
 
       if (result !== null && result !== undefined) setWallet(result);
-      else setError("Wallet not found/allowed.");
+      else
+        setMessage({ message: "Wallet not found/allowed.", type: "rejected" });
     } catch (err) {
-      setError((err as Error).message);
+      setMessage({ message: (err as Error).message, type: "rejected" });
     }
-  }
-  async function btnLogout() {
-    alert("Logout");
   }
 
   return (
@@ -75,6 +73,7 @@ export default function Header() {
           </Link>
         </>
       )}
+      {message.message ? <Message {...message} /> : ""}
     </header>
   );
 }

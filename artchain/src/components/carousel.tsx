@@ -59,13 +59,17 @@ const Carousel = () => {
     <>
       <section>
         <div
-          className={`flex mx-9 relative rounded-xl p-16 ${
-            currentImg === 0
-              ? "bg-yellow-400"
-              : currentImg === 1
-              ? "bg-green-400"
-              : "bg-blue-400"
-          }`}
+          style={{
+            backgroundImage:
+              currentImg === 2
+                ? `url("/blueGradient.png")`
+                : currentImg === 1
+                ? `url("/pinkGradient.png")`
+                : "",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+          className={`flex mx-9 bg-yellow-400 relative rounded-xl p-16`}
         >
           {" "}
           {/* Carousel container */}
@@ -140,7 +144,7 @@ const Carousel = () => {
                 </Link>
                 <Link
                   href="/sell"
-                  className="bg-green-500 ease-linear duration-150 hover:bg-green-600 rounded-xl text-md cursor-pointer px-7 py-3 ml-6"
+                  className="bg-gray-100 opacity-90 ease-linear duration-150 hover:bg-gray-200 rounded-xl text-md cursor-pointer px-7 py-3 ml-6"
                 >
                   SELL
                 </Link>

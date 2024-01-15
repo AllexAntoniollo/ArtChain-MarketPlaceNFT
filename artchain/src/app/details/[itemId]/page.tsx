@@ -41,7 +41,7 @@ export default function Details() {
         ></div>
         <div className="flex text-purple-950 p-40 flex-col mt-24 items-center">
           <h1 className="text-4xl font-bold">
-            Shiba Suspicious #{String(nft.itemId)}
+            Shiba Suspicious #{String(nft.tokenId)}
           </h1>
           <h1 className="p-2 mt-2 flex items-center bg-rose-50 hover:bg-rose-100 cursor-pointer rounded">
             {nft.nftContract}

@@ -1,112 +1,59 @@
-"use client";
-import { NewNFT721, uploadAndCreate } from "@/services/Web3Service";
-import { ChangeEvent, useState } from "react";
-import { NewMessage, Message } from "@/components/message";
+import Image from "next/image";
+import Link from "next/link";
+import { CiGrid41 } from "react-icons/ci";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { PiImageThin } from "react-icons/pi";
+import { TfiCloud } from "react-icons/tfi";
 
 export default function Mint() {
-  const [nft, setNft] = useState<NewNFT721>({});
-  const [message, setMessage] = useState<NewMessage>({} as NewMessage);
-
-  function onInputChange(
-    evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    setNft((prevState) => ({
-      ...prevState,
-      [evt.target.id]: evt.target.value,
-    }));
-  }
-  function onFileChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    if (evt.target.files && evt.target.files.length) {
-      const file = evt.target.files[0];
-      setNft((prevState) => ({ ...prevState, image: file }));
-    }
-  }
-
-  async function mint() {
-    if (!nft || !nft.image) {
-      setMessage({
-        message: "Please upload an image before minting.",
-        type: "rejected",
-      });
-      return;
-    }
-    setMessage({ message: "Connecting MetaMask...wait...", type: "load" });
-    await uploadAndCreate(nft)
-      .then((itemId) => {
-        setMessage({
-          message: "NFT created successfully!",
-          type: "successfully",
-        });
-        window.location.href = "/details/" + itemId;
-      })
-      .catch((err) => setMessage({ message: err.msg, type: "rejected" }));
-  }
   return (
     <main>
-      <section className="flex justify-center relative bg-custom pb-24">
-        <div className="grow max-w-xs mr-4 mt-5 rounded-2xl bg-white border ease-linear duration-200 relative p-2">
-          <h1 className="text-center py-3 text-2xl">Your NFT</h1>
-
-          <div
-            style={{
-              backgroundImage: `url(${
-                nft.image ? URL.createObjectURL(nft.image) : ""
-              })`,
-              backgroundSize: "100%",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-            className="w-full rounded-lg h-64  bg-gray-800"
-          ></div>
-          <div className="ml-3">
-            <p className="font-light text-slate-700 text-sm mt-2">
-              by: {nft.author || "Author"}
-            </p>
-            <p className="text-xl mt-2">{nft.name || "NFT name"}</p>
-            <p className="text-mg mt-2">{nft.description || "Description"}</p>
-          </div>
-        </div>
-      </section>
-      <section className="align justify-center py-10 bg-green-400 flex">
-        <div className="flex px-10 flex-col w-1/2 rounded items-center py-4 bg-white relative bottom-20 border">
-          <h1 className="text-2xl">Create Your NFT</h1>
-          <input
-            onChange={onInputChange}
-            type="text"
-            placeholder="Name"
-            id="name"
-            value={nft.name}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
-          />
-          <input
-            onChange={onInputChange}
-            type="text"
-            id="author"
-            value={nft.author}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
-            placeholder="Author"
-          />
-          <textarea
-            onChange={onInputChange}
-            placeholder="Description"
-            id="description"
-            value={nft.description}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
-          />
-          <input
-            onChange={onFileChange}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
-            type="file"
-            id="file"
-          />
-          <button
-            onClick={mint}
-            className="px-6 py-3 rounded ease-linear  duration-100  bg-indigo-400 hover:bg-indigo-500 text-white w-2/3 mt-4"
+      <section className=" flex">
+        <form className="p-16 w-1/2">
+          <h1 className="text-5xl mb-14 font-medium">
+            <TfiCloud className="mr-4 inline"></TfiCloud>Create your NFT
+          </h1>
+          <Link
+            href="/mint721"
+            className="border relative hover:bottom-4 items-center rounded-lg shadow flex p-7 mb-8"
           >
-            MINT NOW
-          </button>
-          {message.message ? <Message {...message} /> : ""}
-        </div>
+            <div className="mr-8">
+              <h3 className="text-xl font-semibold mb-4">
+                <PiImageThin className="inline-block size-8 mr-4"></PiImageThin>
+                Mint ERC721
+              </h3>
+              <p>In ERC721 each token is unique and indivisible.</p>
+            </div>
+            <div className="ml-6">
+              <FaArrowRightLong></FaArrowRightLong>
+            </div>
+          </Link>
+          <Link
+            href="/mint1155"
+            className="border relative hover:bottom-4 items-center rounded-lg shadow flex p-7 mb-8"
+          >
+            <div>
+              <h3 className="text-xl font-semibold mb-4">
+                <CiGrid41 className="inline-block size-8 mr-4"></CiGrid41>Mint
+                ERC1155
+              </h3>
+              <p>In ERC1155 the tokens can be unique or non-unique.</p>
+            </div>
+            <div className="ml-6">
+              <FaArrowRightLong></FaArrowRightLong>
+            </div>
+          </Link>
+        </form>
+        <div
+          style={{
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundImage:
+              "url('https://cdn.pixabay.com/photo/2022/04/20/12/16/abstract-art-7145098_1280.jpg')",
+          }}
+          className="w-1/2"
+        ></div>
       </section>
     </main>
   );

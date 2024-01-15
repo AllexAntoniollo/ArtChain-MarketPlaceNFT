@@ -5,10 +5,7 @@ import { FaXTwitter } from "react-icons/fa6";
 export default function Footer() {
   return (
     <>
-      <footer
-        style={{ backgroundColor: "#1968B7" }}
-        className="border-t p-16 pb-0 "
-      >
+      <footer style={{ backgroundColor: "#1968B7" }} className="p-16 pb-0 ">
         <div className="flex">
           <Image
             height={150}

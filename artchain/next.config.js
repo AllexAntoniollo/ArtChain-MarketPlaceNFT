@@ -10,6 +10,7 @@ const nextConfig = {
     remotePatterns: [
       {
         hostname: "picsum.photos",
+        hostname: "pixabay.com",
       },
     ],
   },
