@@ -6,9 +6,11 @@ import { IoIosArrowDown } from "react-icons/io";
 import { doLogin } from "@/services/Web3Service";
 import DarkModeButton from "./darkModeButton";
 import { useState } from "react";
+import { useGlobalContext } from "@/contexts/WalletContext";
 import { NewMessage, Message } from "../components/message";
 export default function Header() {
-  const [wallet, setWallet] = useState<string>("");
+  const { wallet, setWallet } = useGlobalContext();
+
   const [message, setMessage] = useState<NewMessage>({} as NewMessage);
   async function btnLoginClick() {
     try {

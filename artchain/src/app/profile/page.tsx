@@ -4,6 +4,7 @@ import { FaRegCopy } from "react-icons/fa6";
 import HoverDiv from "@/components/hoverDiv";
 import { useState, useEffect } from "react";
 import { NFT } from "@/components/nft";
+import { useGlobalContext } from "@/contexts/WalletContext";
 import { MarketItem, loadNfts } from "@/services/Web3Service";
 
 enum profileNFTs {
@@ -13,6 +14,8 @@ enum profileNFTs {
 }
 
 export default function Profile() {
+  const { wallet } = useGlobalContext();
+
   const [nfts, setNfts] = useState<MarketItem[]>([]);
   const [category, setCategory] = useState<profileNFTs>(
     profileNFTs.Collectibles
@@ -38,7 +41,8 @@ export default function Profile() {
         <div className="flex text-purple-950 pb-12 flex-col items-center">
           <h1 className="text-4xl font-bold">Allex Antoniollo</h1>
           <h1 className="p-2 mt-2 flex items-center bg-rose-50 hover:bg-rose-100 cursor-pointer rounded">
-            0xc59Dc14b04Fff99ED14Ca28eE3653799A256222A{" "}
+            {wallet}
+
             <FaRegCopy className="ml-4"></FaRegCopy>
           </h1>
           <p className="mt-5">I'm reaching for the random...</p>
@@ -129,8 +133,7 @@ export default function Profile() {
             nfts && nfts.length ? (
               nfts.map((nft: MarketItem, index) => (
                 <>
-                  {nft.seller ===
-                  "0xa8F5e4d1c612f0d36B7FB3f63F7e864da28d9FfA" ? (
+                  {nft.seller.toLowerCase() === wallet ? (
                     <NFT
                       key={index}
                       itemId={nft.itemId}
