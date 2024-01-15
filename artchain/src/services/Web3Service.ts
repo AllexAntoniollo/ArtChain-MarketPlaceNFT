@@ -225,3 +225,41 @@ export async function buyNft(
 
   return marketId;
 }
+
+export async function itemsCreated(): Promise<MarketItem[]> {
+  const provider = await getProvider();
+  const signer = await provider.getSigner();
+
+  const marketContract = new ethers.Contract(
+    MARKETPLACE_ADDRESS,
+    MarketABI,
+    provider
+  );
+
+  const items = await marketContract.fetchItemsCreated({
+    from: signer.address,
+  });
+
+  if (!items) return {} as MarketItem[];
+
+  return items;
+}
+
+export async function myNFTs(): Promise<MarketItem[]> {
+  const provider = await getProvider();
+  const signer = await provider.getSigner();
+
+  const marketContract = new ethers.Contract(
+    MARKETPLACE_ADDRESS,
+    MarketABI,
+    provider
+  );
+
+  const items = await marketContract.fetchMyNfts({
+    from: signer.address,
+  });
+
+  if (!items) return {} as MarketItem[];
+
+  return items;
+}

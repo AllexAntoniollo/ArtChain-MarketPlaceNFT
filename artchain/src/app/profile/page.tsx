@@ -1,11 +1,15 @@
 "use client";
 import { IoPencilSharp } from "react-icons/io5";
-import { FaRegCopy } from "react-icons/fa6";
-import HoverDiv from "@/components/hoverDiv";
+import { FaRegCopy, FaCheck } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import { NFT } from "@/components/nft";
 import { useGlobalContext } from "@/contexts/WalletContext";
-import { MarketItem, loadNfts } from "@/services/Web3Service";
+import {
+  MarketItem,
+  loadNfts,
+  itemsCreated,
+  myNFTs,
+} from "@/services/Web3Service";
 
 enum profileNFTs {
   Collectibles,
@@ -15,18 +19,43 @@ enum profileNFTs {
 
 export default function Profile() {
   const { wallet } = useGlobalContext();
-
+  const [copied, setCopied] = useState(false);
   const [nfts, setNfts] = useState<MarketItem[]>([]);
   const [category, setCategory] = useState<profileNFTs>(
     profileNFTs.Collectibles
   );
-  useEffect(() => {
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(wallet);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500); // Reset copied state after 1.5 seconds
+  };
+  const purchased = () => {
+    myNFTs()
+      .then((nfts) => setNfts(nfts))
+      .catch((err) => console.log(err.msg));
+  };
+  const onSale = () => {
     loadNfts()
       .then((nfts) => setNfts(nfts))
       .catch((err) => console.log(err.msg));
-  }, [category]);
+  };
+  const created = () => {
+    itemsCreated()
+      .then((nfts) => setNfts(nfts))
+      .catch((err) => console.log(err.msg));
+  };
+  useEffect(() => {
+    purchased();
+  }, []);
   function changeCategory(selectedCategory: profileNFTs) {
     setCategory(selectedCategory);
+    if (selectedCategory === profileNFTs.OnSale) {
+      onSale();
+    } else if (selectedCategory === profileNFTs.Created) {
+      created();
+    } else if (selectedCategory === profileNFTs.Collectibles) {
+      purchased();
+    }
   }
   return (
     <main>
@@ -40,15 +69,21 @@ export default function Profile() {
         </div>
         <div className="flex text-purple-950 pb-12 flex-col items-center">
           <h1 className="text-4xl font-bold">Allex Antoniollo</h1>
-          <h1 className="p-2 mt-2 flex items-center bg-rose-50 hover:bg-rose-100 cursor-pointer rounded">
+          <h1
+            className="p-2 mt-2 flex items-center bg-rose-50 hover:bg-rose-100 cursor-pointer rounded"
+            onClick={handleCopyClick}
+          >
             {wallet}
-
-            <FaRegCopy className="ml-4"></FaRegCopy>
+            {copied ? (
+              <FaCheck className="ml-2" />
+            ) : (
+              <FaRegCopy className="ml-2" />
+            )}
           </h1>
           <p className="mt-5">I'm reaching for the random...</p>
         </div>
       </section>
-      <section>
+      <section className="pb-10">
         <div className="flex mx-16 py-5">
           <h1
             onClick={() => changeCategory(profileNFTs.Collectibles)}
@@ -70,7 +105,7 @@ export default function Profile() {
                 : "text-gray-600")
             }
           >
-            CREATED
+            SALE CREATED
           </h1>
           <h1
             onClick={() => changeCategory(profileNFTs.OnSale)}
@@ -84,72 +119,40 @@ export default function Profile() {
             ON SALE
           </h1>
         </div>
-        <section className="mx-16 py-5">
-          {category === profileNFTs.Collectibles ? (
-            <div className="grow max-w-xs mr-4 mt-5 rounded-2xl border ease-linear duration-200 relative p-2 hover:bottom-3 hover:border-2 hover:shadow">
-              <div className="w-full rounded-lg h-64  bg-red-800">
-                <HoverDiv></HoverDiv>
-              </div>
-              <div className="ml-3">
-                <p className="font-light text-slate-700 text-sm mt-2">
-                  by: Allex
-                </p>
-                <p className="text-xl mt-2">Shiba Smile</p>
-              </div>
-              <div className="flex justify-evenly rounded bg-gray-100 mt-3 text-sm">
-                <div>
-                  <p className="font-light text-slate-700">Status:</p>
-                  <p>Completed</p>
-                </div>
-                <div>
-                  <p className="font-light text-slate-700">Price:</p>
-                  <p>20 MATIC</p>
-                </div>
-              </div>
-            </div>
-          ) : category === profileNFTs.Created ? (
-            <div className="grow max-w-xs mr-4 mt-5 rounded-2xl border ease-linear duration-200 relative p-2 hover:bottom-3 hover:border-2 hover:shadow">
-              <div className="w-full rounded-lg h-64  bg-red-800">
-                <HoverDiv></HoverDiv>
-              </div>
-              <div className="ml-3">
-                <p className="font-light text-slate-700 text-sm mt-2">
-                  by: Allex
-                </p>
-                <p className="text-xl mt-2">Shiba Smile</p>
-              </div>
-              <div className="flex justify-evenly rounded bg-gray-100 mt-3 text-sm">
-                <div>
-                  <p className="font-light text-slate-700">Status:</p>
-                  <p>Completed</p>
-                </div>
-                <div>
-                  <p className="font-light text-slate-700">Price:</p>
-                  <p>20 MATIC</p>
-                </div>
-              </div>
-            </div>
-          ) : category === profileNFTs.OnSale ? (
-            nfts && nfts.length ? (
-              nfts.map((nft: MarketItem, index) => (
-                <>
-                  {nft.seller.toLowerCase() === wallet ? (
-                    <NFT
-                      key={index}
-                      itemId={nft.itemId}
-                      price={nft.price}
-                      sold={nft.sold}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </>
-              ))
-            ) : (
-              ""
+        <section className="mx-16 py-5 flex flex-wrap justify-around">
+          {category === profileNFTs.Collectibles && nfts.length > 0 ? (
+            nfts.map((nft: MarketItem, index) => (
+              <NFT
+                key={index}
+                itemId={nft.itemId}
+                price={nft.price}
+                sold={nft.sold}
+              />
+            ))
+          ) : category === profileNFTs.Created && nfts.length > 0 ? (
+            nfts.map((nft: MarketItem, index) => (
+              <NFT
+                key={index}
+                itemId={nft.itemId}
+                price={nft.price}
+                sold={nft.sold}
+              />
+            ))
+          ) : category === profileNFTs.OnSale && nfts.length > 0 ? (
+            nfts.map((nft: MarketItem, index) =>
+              nft.seller.toLowerCase() === wallet ? (
+                <NFT
+                  key={index}
+                  itemId={nft.itemId}
+                  price={nft.price}
+                  sold={nft.sold}
+                />
+              ) : (
+                <p>No NFTs available.</p>
+              )
             )
           ) : (
-            "No NFTS for sale"
+            <p>No NFTs available.</p>
           )}
         </section>
       </section>
