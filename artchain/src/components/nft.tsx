@@ -2,7 +2,7 @@ import HoverDiv from "../components/hoverDiv";
 import { ethers } from "ethers";
 export function NFT(props: any) {
   return (
-    <div className="max-w-xs w-80 mr-4 mt-5 rounded-2xl border ease-linear duration-200 relative p-2 hover:bottom-3 hover:border-2 hover:shadow">
+    <div className="max-w-xs w-80 mr-4 mt-5 rounded-2xl border p-2 content shadow  hover:shadow-md">
       <div className="w-full rounded-lg h-64  bg-red-800">
         <HoverDiv itemId={props.itemId}></HoverDiv>
       </div>

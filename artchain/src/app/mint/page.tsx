@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { CiGrid41 } from "react-icons/ci";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -15,7 +14,7 @@ export default function Mint() {
           </h1>
           <Link
             href="/mint721"
-            className="border relative hover:bottom-4 items-center rounded-lg shadow flex p-7 mb-8"
+            className="border content hover:shadow-md items-center rounded-lg shadow flex p-7 mb-8"
           >
             <div className="mr-8">
               <h3 className="text-xl font-semibold mb-4">
@@ -30,7 +29,7 @@ export default function Mint() {
           </Link>
           <Link
             href="/mint1155"
-            className="border relative hover:bottom-4 items-center rounded-lg shadow flex p-7 mb-8"
+            className="border content hover:shadow-md items-center rounded-lg shadow flex p-7 mb-8"
           >
             <div>
               <h3 className="text-xl font-semibold mb-4">

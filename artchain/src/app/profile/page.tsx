@@ -59,11 +59,17 @@ export default function Profile() {
   }
   return (
     <main>
-      <section className="bg-red-700 h-60"></section>
+      <section
+        style={{
+          backgroundImage:
+            "url('https://cdn.pixabay.com/photo/2022/04/07/16/36/art-7117922_1280.jpg')",
+        }}
+        className="h-60 bg-no-repeat bg-cover bg-center border-b-black "
+      ></section>
       <section>
         <div
           style={{ margin: "0 auto" }}
-          className="rounded-full relative bottom-12 w-24 h-24 bg-green-400 border"
+          className="rounded-full relative bottom-12 w-24 h-24 bg-green-400 border-black"
         >
           <IoPencilSharp className="absolute bottom-0 translate-y-full text-white size-7 cursor-pointer rounded bg-purple-950 p-1 inset-1/2 transform -translate-x-1/2"></IoPencilSharp>
         </div>

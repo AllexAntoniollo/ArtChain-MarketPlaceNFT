@@ -100,3 +100,12 @@
   transition: background-position 5s, background-color 5s; /* Adiciona transição para ambas as propriedades */
   background-position: -100% 0; /* Inicializa a posição do gradiente à esquerda */
 }
+
+.content {
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+}
+
+.content:hover {
+  transform: translateY(-5%);
+}
