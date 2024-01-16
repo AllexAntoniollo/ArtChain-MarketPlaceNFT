@@ -58,14 +58,15 @@ export default function Mint721() {
             }}
             className="w-full rounded-lg h-64  bg-gray-800"
           ></div>
-          <div className="mx-3">
+          <div className="ml-3">
             <div className="flex justify-between">
               <p className="font-light text-slate-700 text-sm mt-2">
                 by: {nft.author || "Author"}
               </p>
-              <p className="font-light text-slate-700 text-sm mt-2 ">1 of 1</p>
+              <p className="font-light text-slate-700 text-sm mt-2 ">
+                1 of {nft.quantity}
+              </p>
             </div>
-
             <p className="text-xl mt-2">{nft.name || "NFT name"}</p>
             <p className="text-mg mt-2">{nft.description || "Description"}</p>
           </div>
@@ -89,6 +90,14 @@ export default function Mint721() {
             value={nft.author}
             className="outline-none border rounded pl-2 py-2 w-full mt-4"
             placeholder="Author"
+          />
+          <input
+            onChange={onInputChange}
+            type="number"
+            id="quantity"
+            value={nft.quantity}
+            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            placeholder="Amount/Supply"
           />
           <textarea
             onChange={onInputChange}

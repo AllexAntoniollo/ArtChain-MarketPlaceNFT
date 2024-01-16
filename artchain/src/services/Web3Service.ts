@@ -30,6 +30,7 @@ export type NewNFT721 = {
   image?: File;
   description?: string;
   author?: string;
+  quantity: number;
 };
 
 async function uploadFile(file: File): Promise<string> {
