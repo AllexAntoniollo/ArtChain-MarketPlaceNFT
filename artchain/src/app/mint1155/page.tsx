@@ -53,10 +53,8 @@ export default function Mint721() {
                 nft.image ? URL.createObjectURL(nft.image) : ""
               })`,
               backgroundSize: "100%",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
             }}
-            className="w-full rounded-lg h-64  bg-gray-800"
+            className="w-full bg-no-repeat bg-center bg rounded-lg h-64  bg-gray-800"
           ></div>
           <div className="ml-3">
             <div className="flex justify-between">

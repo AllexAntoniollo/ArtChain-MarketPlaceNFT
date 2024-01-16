@@ -1,5 +1,5 @@
 "use client";
-import { FaRegCopy } from "react-icons/fa6";
+import { FaRegCopy, FaCheck } from "react-icons/fa6";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { getDetails, MarketItem, buyNft } from "@/services/Web3Service";
@@ -7,6 +7,7 @@ import { ethers } from "ethers";
 import { NewMessage, Message } from "@/components/message";
 
 export default function Details() {
+  const [copied, setCopied] = useState(false);
   const params = useParams();
   const itemId = params.itemId;
   const [nft, setNft] = useState<MarketItem>({} as MarketItem);
@@ -30,29 +31,46 @@ export default function Details() {
       })
       .catch((err) => setMessage({ message: err.msg, type: "rejected" }));
   }
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(nft.nftContract);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
   return (
     <main>
-      <section className="bg-red-700 h-60"></section>
+      <section className="bg-red-700 border-b-black h-60"></section>
       <section>
         <div
-          style={{ margin: "0 auto" }}
-          className="absolute left-1/2 -translate-y-3/4 -translate-x-1/2 rounded w-96 h-96 bg-green-400 border"
+          style={{
+            margin: "0 auto",
+            backgroundImage: `url(/pinata/getImage?uri=${nft.image})`,
+            backgroundSize: "100%",
+          }}
+          className="absolute left-1/2 bg-center bg-no-repeat bg-contain  -translate-y-3/4 -translate-x-1/2 rounded w-96 h-96 border"
         ></div>
         <div className="flex text-purple-950 p-40 flex-col mt-24 items-center">
           <h1 className="text-4xl font-bold">
-            Shiba Suspicious #{String(nft.tokenId)}
+            {nft.name} #{String(nft.tokenId)}
           </h1>
-          <h1 className="p-2 mt-2 flex items-center bg-rose-50 hover:bg-rose-100 cursor-pointer rounded">
+          <p className=" font-light mt-2">By: {nft.author}</p>
+          <h1
+            onClick={handleCopyClick}
+            className="p-2 mt-2 flex items-center bg-rose-50 hover:bg-rose-100 cursor-pointer rounded"
+          >
             {nft.nftContract}
-            <FaRegCopy className="ml-4"></FaRegCopy>
+            {copied ? (
+              <FaCheck className="ml-4" />
+            ) : (
+              <FaRegCopy className="ml-4" />
+            )}
           </h1>
           <p className="mt-5">Status: {nft.sold ? "Completed" : "For Sale"}</p>
           <p className="mt-5">
             Price: {nft.price ? ethers.formatEther(String(nft.price)) : "N/A"}
           </p>
 
-          <p className="mt-5">I'm reaching for the random...</p>
+          <p className="mt-5">{nft.description}</p>
           <div className="mt-8">
             <button
               disabled={nft.sold}
