@@ -192,6 +192,18 @@ export async function getDetails(itemId: number): Promise<MarketItem> {
       "Content-Type": "application/json",
     },
   });
+  let imageUrl = metadata.data.image;
+
+  if (
+    !imageUrl.startsWith(
+      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
+    )
+  ) {
+    imageUrl =
+      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/" + imageUrl;
+  }
+
+  imageUrl = imageUrl.replace("ipfs://", "");
 
   const market = {
     itemId: item.itemId,
@@ -201,10 +213,7 @@ export async function getDetails(itemId: number): Promise<MarketItem> {
     nftContract: item.nftContract,
     price: item.price,
     sold: item.sold,
-    image: metadata.data.image.replace(
-      "ipfs://",
-      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
-    ),
+    image: imageUrl,
     name: metadata.data.name,
     description: metadata.data.description,
     author: metadata.data.author,
@@ -238,6 +247,18 @@ export async function loadNfts(): Promise<MarketItem[]> {
         "Content-Type": "application/json",
       },
     });
+    let imageUrl = response.data.image;
+
+    if (
+      !imageUrl.startsWith(
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
+      )
+    ) {
+      imageUrl =
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/" + imageUrl;
+    }
+
+    imageUrl = imageUrl.replace("ipfs://", "");
 
     return {
       itemId: item.itemId,
@@ -250,16 +271,13 @@ export async function loadNfts(): Promise<MarketItem[]> {
       name: response.data.name,
       author: response.data.author,
       description: response.data.description,
-      image: response.data.image.replace(
-        "ipfs://",
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
-      ),
+      image: imageUrl,
     } as MarketItem;
   });
 
   const itemsWithMetadata: MarketItem[] = await Promise.all(metadataPromises);
 
-  return itemsWithMetadata;
+  return itemsWithMetadata.reverse();
 }
 
 export async function buyNft(
@@ -319,6 +337,18 @@ export async function itemsCreated(): Promise<MarketItem[]> {
         "Content-Type": "application/json",
       },
     });
+    let imageUrl = response.data.image;
+
+    if (
+      !imageUrl.startsWith(
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
+      )
+    ) {
+      imageUrl =
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/" + imageUrl;
+    }
+
+    imageUrl = imageUrl.replace("ipfs://", "");
 
     return {
       itemId: item.itemId,
@@ -331,10 +361,7 @@ export async function itemsCreated(): Promise<MarketItem[]> {
       name: response.data.name,
       author: response.data.author,
       description: response.data.description,
-      image: response.data.image.replace(
-        "ipfs://",
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
-      ),
+      image: imageUrl,
     } as MarketItem;
   });
 
@@ -371,6 +398,18 @@ export async function myNFTs(): Promise<MarketItem[]> {
         "Content-Type": "application/json",
       },
     });
+    let imageUrl = response.data.image;
+
+    if (
+      !imageUrl.startsWith(
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
+      )
+    ) {
+      imageUrl =
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/" + imageUrl;
+    }
+
+    imageUrl = imageUrl.replace("ipfs://", "");
 
     return {
       itemId: item.itemId,
@@ -383,10 +422,7 @@ export async function myNFTs(): Promise<MarketItem[]> {
       name: response.data.name,
       author: response.data.author,
       description: response.data.description,
-      image: response.data.image.replace(
-        "ipfs://",
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
-      ),
+      image: imageUrl,
     } as MarketItem;
   });
 

@@ -37,7 +37,6 @@ export default function Mint721() {
           message: "NFT created successfully!",
           type: "successfully",
         });
-        window.location.href = "/details/" + itemId;
       })
       .catch((err) => setMessage({ message: err.msg, type: "rejected" }));
   }

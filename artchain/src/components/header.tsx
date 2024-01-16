@@ -23,6 +23,22 @@ export default function Header() {
       setMessage({ message: (err as Error).message, type: "rejected" });
     }
   }
+  const handleSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      redirectToSearch();
+    }
+  };
+
+  const redirectToSearch = () => {
+    const inputValue = (
+      document.getElementById("searchInput") as HTMLInputElement
+    ).value;
+    (window.location.href = `/#nfts`),
+      undefined,
+      {
+        shallow: true,
+      };
+  };
 
   return (
     <header className="shadow-sl border-b border-gray-200 flex items-center justify-evenly w-full py-4 px-2 ">
@@ -41,12 +57,17 @@ export default function Header() {
       </h3>
       <div className="relative">
         <input
+          id="searchInput"
+          onKeyPress={handleSearch} // Adiciona o evento de tecla
           className="ease-linear duration-150 rounded-xl border p-2 pl-8 outline-none focus:border-purple-900 shadow-sl hover:shadow-lg"
           placeholder="Search for NFTs..."
           type="text"
         />
 
-        <div className="absolute inset-y-0 left-0 flex items-center pl-2">
+        <div
+          onClick={redirectToSearch} // Adiciona o evento de clique
+          className="absolute inset-y-0 cursor-pointer left-0 flex items-center pl-2"
+        >
           <CiSearch />
         </div>
       </div>
