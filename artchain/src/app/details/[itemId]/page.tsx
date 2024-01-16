@@ -14,10 +14,18 @@ export default function Details() {
   const [message, setMessage] = useState<NewMessage>({} as NewMessage);
 
   useEffect(() => {
-    getDetails(Number(itemId))
-      .then((nft) => setNft(nft))
-      .catch((err) => console.log(err.msg));
-  }, [params.itemId]);
+    if (itemId) {
+      getDetails(Number(itemId))
+        .then((nft) => {
+          if (Object.keys(nft).length === 0) {
+            window.location.href = "/";
+          } else {
+            setNft(nft);
+          }
+        })
+        .catch((err) => console.log(err.msg));
+    }
+  }, [itemId]);
 
   async function buy() {
     setMessage({ message: "Connecting MetaMask...wait...", type: "load" });
@@ -39,7 +47,13 @@ export default function Details() {
 
   return (
     <main>
-      <section className="bg-red-700 border-b-black h-60"></section>
+      <section
+        style={{
+          backgroundImage: "url(/star.jpg)",
+          backgroundSize: "100%",
+        }}
+        className="border-b border-black h-60"
+      ></section>
       <section>
         <div
           style={{
@@ -47,7 +61,7 @@ export default function Details() {
             backgroundImage: `url(/pinata/getImage?uri=${nft.image})`,
             backgroundSize: "100%",
           }}
-          className="absolute left-1/2 bg-center bg-no-repeat bg-contain  -translate-y-3/4 -translate-x-1/2 rounded w-96 h-96 border"
+          className="absolute bg-white left-1/2 bg-center bg-no-repeat bg-contain  -translate-y-3/4 -translate-x-1/2 rounded w-96 h-96 border border-black"
         ></div>
         <div className="flex text-purple-950 p-40 flex-col mt-24 items-center">
           <h1 className="text-4xl font-bold">

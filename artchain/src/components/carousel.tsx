@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 
 const Carousel = () => {
   const data = [
-    { image: "https://picsum.photos/seed/random101/500/500" },
-    { image: "https://picsum.photos/seed/random102/500/500" },
-    { image: "https://picsum.photos/seed/random103/500/500" },
+    { image: "/mountain.jpg" },
+    { image: "/fantasyWhite.jpg" },
+    { image: "/fantasy.jpg" },
   ];
   const [currentImg, setCurrentImg] = useState(0);
   const [activeImage, setActiveImage] = useState(0);
@@ -87,13 +86,16 @@ const Carousel = () => {
             >
               {/* Map through data to render images */}
               {data.map((v, i) => (
-                <div key={i} className="relative shrink-0 w-full h-full">
-                  <Image
-                    className="pointer-events-none"
-                    alt={`carousel-image-${i}`}
-                    fill
-                    src={v.image || "https://random.imagecdn.app/500/500"}
-                  />
+                <div
+                  key={i}
+                  style={{
+                    backgroundImage: `url(${
+                      v.image || "https://random.imagecdn.app/500/500"
+                    })`,
+                  }}
+                  className="bg-cover bg-center relative shrink-0 w-full h-full"
+                >
+                  <div className="pointer-events-none w-full" />
                 </div>
               ))}
             </div>

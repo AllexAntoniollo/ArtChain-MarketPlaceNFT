@@ -21,12 +21,7 @@ export default function Home() {
           {nfts && nfts.length
             ? nfts.map((nft: MarketItem, index) => (
                 <>
-                  <NFT
-                    key={index}
-                    itemId={nft.itemId}
-                    price={nft.price}
-                    sold={nft.sold}
-                  />
+                  <NFT key={index} {...nft} />
                 </>
               ))
             : "No NFTS for sale"}

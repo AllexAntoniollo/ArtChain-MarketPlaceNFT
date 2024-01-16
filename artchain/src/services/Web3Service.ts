@@ -176,15 +176,17 @@ export async function getDetails(itemId: number): Promise<MarketItem> {
 
   const item: MarketItem = await marketContract.marketItems(itemId);
 
-  if (!item) return {} as MarketItem;
+  if (item.seller === ethers.ZeroAddress) return {} as MarketItem;
+
   const collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+
   const tokenUri = await collectionContract.tokenURI(item.tokenId);
 
   const metadata = await axios({
     method: "POST",
     url: "/pinata/getMetadata",
     data: {
-      uri: "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/QmbwkG4NQ332cCXJyyy1H4xxcf7PvLMJZPcEaujCQR13Cy",
+      uri: tokenUri.replace("ipfs://", ""),
     },
     headers: {
       "Content-Type": "application/json",
@@ -220,9 +222,44 @@ export async function loadNfts(): Promise<MarketItem[]> {
     provider
   );
   const items: MarketItem[] = await marketContract.fetchMarketItems();
-  if (!items) return {} as MarketItem[];
+  if (items[0].seller === ethers.ZeroAddress) return [] as MarketItem[];
 
-  return items;
+  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+
+  const metadataPromises = items.map(async (item: MarketItem) => {
+    const tokenUri = await collectionContract.tokenURI(item.tokenId);
+    const response = await axios({
+      method: "POST",
+      url: "/pinata/getMetadata",
+      data: {
+        uri: tokenUri.replace("ipfs://", ""),
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return {
+      itemId: item.itemId,
+      tokenId: item.tokenId,
+      seller: item.seller,
+      owner: item.owner,
+      nftContract: item.nftContract,
+      price: item.price,
+      sold: item.sold,
+      name: response.data.name,
+      author: response.data.author,
+      description: response.data.description,
+      image: response.data.image.replace(
+        "ipfs://",
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
+      ),
+    } as MarketItem;
+  });
+
+  const itemsWithMetadata: MarketItem[] = await Promise.all(metadataPromises);
+
+  return itemsWithMetadata;
 }
 
 export async function buyNft(
@@ -250,7 +287,6 @@ export async function buyNft(
 
   return marketId;
 }
-
 export async function itemsCreated(): Promise<MarketItem[]> {
   const provider = await getProvider();
   const signer = await provider.getSigner();
@@ -261,13 +297,50 @@ export async function itemsCreated(): Promise<MarketItem[]> {
     provider
   );
 
-  const items = await marketContract.fetchItemsCreated({
+  const items: MarketItem[] = await marketContract.fetchItemsCreated({
     from: signer.address,
   });
 
-  if (!items) return {} as MarketItem[];
+  if (items[0].seller === ethers.ZeroAddress) {
+    return [] as MarketItem[];
+  }
 
-  return items;
+  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+
+  const metadataPromises = items.map(async (item: MarketItem) => {
+    const tokenUri = await collectionContract.tokenURI(item.tokenId);
+    const response = await axios({
+      method: "POST",
+      url: "/pinata/getMetadata",
+      data: {
+        uri: tokenUri.replace("ipfs://", ""),
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return {
+      itemId: item.itemId,
+      tokenId: item.tokenId,
+      seller: item.seller,
+      owner: item.owner,
+      nftContract: item.nftContract,
+      price: item.price,
+      sold: item.sold,
+      name: response.data.name,
+      author: response.data.author,
+      description: response.data.description,
+      image: response.data.image.replace(
+        "ipfs://",
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
+      ),
+    } as MarketItem;
+  });
+
+  const itemsWithMetadata: MarketItem[] = await Promise.all(metadataPromises);
+
+  return itemsWithMetadata;
 }
 
 export async function myNFTs(): Promise<MarketItem[]> {
@@ -280,11 +353,44 @@ export async function myNFTs(): Promise<MarketItem[]> {
     provider
   );
 
-  const items = await marketContract.fetchMyNfts({
+  const items: MarketItem[] = await marketContract.fetchMyNfts({
     from: signer.address,
   });
 
-  if (!items) return {} as MarketItem[];
+  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
 
-  return items;
+  const metadataPromises = items.map(async (item: MarketItem) => {
+    const tokenUri = await collectionContract.tokenURI(item.tokenId);
+    const response = await axios({
+      method: "POST",
+      url: "/pinata/getMetadata",
+      data: {
+        uri: tokenUri.replace("ipfs://", ""),
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return {
+      itemId: item.itemId,
+      tokenId: item.tokenId,
+      seller: item.seller,
+      owner: item.owner,
+      nftContract: item.nftContract,
+      price: item.price,
+      sold: item.sold,
+      name: response.data.name,
+      author: response.data.author,
+      description: response.data.description,
+      image: response.data.image.replace(
+        "ipfs://",
+        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
+      ),
+    } as MarketItem;
+  });
+
+  const itemsWithMetadata: MarketItem[] = await Promise.all(metadataPromises);
+
+  return itemsWithMetadata;
 }

@@ -48,6 +48,7 @@ export default function Profile() {
     purchased();
   }, []);
   function changeCategory(selectedCategory: profileNFTs) {
+    setNfts([]);
     setCategory(selectedCategory);
     if (selectedCategory === profileNFTs.OnSale) {
       onSale();
@@ -61,15 +62,14 @@ export default function Profile() {
     <main>
       <section
         style={{
-          backgroundImage:
-            "url('https://cdn.pixabay.com/photo/2022/04/07/16/36/art-7117922_1280.jpg')",
+          backgroundImage: "url(/forest.jpg)",
         }}
-        className="h-60 bg-no-repeat bg-cover bg-center border-b-black "
+        className="h-60 bg-no-repeat bg-cover bg-center border-b border-black "
       ></section>
       <section>
         <div
           style={{ margin: "0 auto" }}
-          className="rounded-full relative bottom-12 w-24 h-24 bg-green-400 border-black"
+          className="rounded-full relative bottom-12 w-24 h-24 bg-green-400 border-black border"
         >
           <IoPencilSharp className="absolute bottom-0 translate-y-full text-white size-7 cursor-pointer rounded bg-purple-950 p-1 inset-1/2 transform -translate-x-1/2"></IoPencilSharp>
         </div>
@@ -127,34 +127,15 @@ export default function Profile() {
         </div>
         <section className="mx-16 py-5 flex flex-wrap justify-around">
           {category === profileNFTs.Collectibles && nfts.length > 0 ? (
-            nfts.map((nft: MarketItem, index) => (
-              <NFT
-                key={index}
-                itemId={nft.itemId}
-                price={nft.price}
-                sold={nft.sold}
-              />
-            ))
+            nfts.map((nft: MarketItem, index) => <NFT key={index} {...nft} />)
           ) : category === profileNFTs.Created && nfts.length > 0 ? (
-            nfts.map((nft: MarketItem, index) => (
-              <NFT
-                key={index}
-                itemId={nft.itemId}
-                price={nft.price}
-                sold={nft.sold}
-              />
-            ))
+            nfts.map((nft: MarketItem, index) => <NFT key={index} {...nft} />)
           ) : category === profileNFTs.OnSale && nfts.length > 0 ? (
             nfts.map((nft: MarketItem, index) =>
               nft.seller.toLowerCase() === wallet ? (
-                <NFT
-                  key={index}
-                  itemId={nft.itemId}
-                  price={nft.price}
-                  sold={nft.sold}
-                />
+                <NFT key={index} {...nft} />
               ) : (
-                <p>No NFTs available.</p>
+                ""
               )
             )
           ) : (
