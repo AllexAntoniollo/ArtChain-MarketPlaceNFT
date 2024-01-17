@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { CiDark } from "react-icons/ci";
 import { CiLight } from "react-icons/ci";
+import { useTheme } from "next-themes";
+
 export default function darkModeButton() {
-  const [modoClaro, setModoClaro] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [modoClaro, setModoClaro] = useState(theme === "light");
 
   const toggleModoClaro = () => {
     setModoClaro(!modoClaro);
+    setTheme(modoClaro ? "light" : "dark");
   };
 
   return (

@@ -78,14 +78,14 @@ export default function Mint721() {
             placeholder="Name"
             id="name"
             value={nft.name}
-            className="outline-none border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
+            className="outline-none dark:bg-slate-100 border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
           />
           <input
             onChange={onInputChange}
             type="text"
             id="author"
             value={nft.author}
-            className="outline-none border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
+            className="outline-none dark:bg-slate-100 border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
             placeholder="Author"
           />
           <input
@@ -93,7 +93,7 @@ export default function Mint721() {
             type="number"
             id="quantity"
             value={nft.quantity}
-            className="outline-none border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
+            className="outline-none border dark:text-black dark:bg-slate-100 rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
             placeholder="Amount/Supply"
           />
           <textarea
@@ -101,11 +101,11 @@ export default function Mint721() {
             placeholder="Description"
             id="description"
             value={nft.description}
-            className="outline-none border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
+            className="outline-none border dark:text-black dark:bg-slate-100 rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
           />
           <input
             onChange={onFileChange}
-            className="outline-none border dark:text-neutral-200 rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
+            className="outline-none border  dark:text-neutral-200 rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
             type="file"
             id="file"
           />

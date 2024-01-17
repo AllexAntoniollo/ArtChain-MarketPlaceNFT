@@ -45,7 +45,7 @@ export default function Header() {
   };
 
   return (
-    <header className="shadow-md border-b dark:text-neutral-300 dark:border-gray-950 border-gray-200 flex items-center justify-evenly w-full py-4 px-2 ">
+    <header className="shadow-md dark:bg-neutral-900 border-b dark:text-neutral-300 dark:border-gray-950 border-gray-200 flex items-center justify-evenly w-full py-4 px-2 ">
       <Link href="/">
         <Image
           height={55}
@@ -85,7 +85,7 @@ export default function Header() {
       {!wallet ? (
         <button
           onClick={btnLoginClick}
-          className="ease-linear duration-150 dark:bg-neutral-800 dark:border-purple-700 flex items-center border border-purple-900 justify-center rounded bg-white px-3 py-2 hover:bg-purple-900 hover:text-white hover:shadow-md "
+          className="ease-linear dark:hover:bg-gray-900 duration-150 dark:bg-neutral-800 dark:border-purple-700 flex items-center border border-purple-900 justify-center rounded bg-white px-3 py-2 hover:bg-purple-900 hover:text-white hover:shadow-md "
         >
           <p>Connect Wallet</p>
         </button>

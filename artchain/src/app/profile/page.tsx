@@ -59,7 +59,7 @@ export default function Profile() {
     }
   }
   return (
-    <main>
+    <main className="dark:bg-neutral-900">
       <section
         style={{
           backgroundImage: "url(/forest.jpg)",

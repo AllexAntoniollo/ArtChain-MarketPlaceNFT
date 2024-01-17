@@ -46,7 +46,7 @@ export default function Details() {
   };
 
   return (
-    <main>
+    <main className="dark:bg-neutral-900">
       <section
         style={{
           backgroundImage: "url(/star.jpg)",

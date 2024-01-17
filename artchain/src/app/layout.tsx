@@ -5,6 +5,7 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import { GlobalContextProvider } from "@/contexts/WalletContext";
 const inter = Inter({ subsets: ["latin"] });
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,14 +18,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className={"dark:bg-neutral-900"} lang="en">
+    <html suppressHydrationWarning className={"dark:bg-neutral-900"} lang="en">
       <body className={inter.className}>
-        <GlobalContextProvider>
-          <Header></Header>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <GlobalContextProvider>
+            <Header></Header>
 
-          {children}
-          <Footer></Footer>
-        </GlobalContextProvider>
+            {children}
+            <Footer></Footer>
+          </GlobalContextProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -6,7 +6,7 @@ import { TfiCloud } from "react-icons/tfi";
 
 export default function Mint() {
   return (
-    <main>
+    <main className="dark:bg-neutral-900">
       <section className=" flex">
         <form className="p-16 dark:text-neutral-300 w-1/2">
           <h1 className="text-5xl mb-14 font-medium">

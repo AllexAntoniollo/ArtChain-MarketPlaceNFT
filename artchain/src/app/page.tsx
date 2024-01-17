@@ -39,21 +39,21 @@ export default function Home() {
   }
 
   return (
-    <div className="">
+    <div className="dark:bg-neutral-900 pb-12">
       <Carousel></Carousel>
       <section
         id="nfts"
-        className="rounded-md mx-9 mb-12 dark:border-neutral-600 border p-8"
+        className="rounded-md mx-9  dark:border-neutral-600 border p-8"
       >
         <div className="border-b dark:border-neutral-600 pb-3 flex justify-between">
           <div className="text-3xl dark:text-neutral-300 flex font-medium">
             <FaFire></FaFire>
             <p className="ml-4 ">Latest NFTs</p>
           </div>
-          <div className="relative">
+          <div className="relative dark:text-neutral-700">
             <input
               onChange={onSearchChange}
-              className="ease-linear duration-150 dark:text-neutral-700 dark:bg-neutral-200 rounded-xl dark:border-neutral-600 border p-2 pl-8 outline-none focus:border-purple-900 shadow-sl hover:shadow-lg"
+              className="ease-linear duration-150  dark:bg-neutral-200 rounded-xl dark:border-neutral-600 border p-2 pl-8 outline-none focus:border-purple-900 shadow-sl hover:shadow-lg"
               placeholder="Search for NFTs..."
               type="text"
             />

@@ -34,7 +34,7 @@ export default function Sell() {
   return (
     <main>
       <section className="align bg-custom justify-center py-10 flex">
-        <div className="flex px-10 flex-col w-1/2 items-center py-4 bg-white border">
+        <div className="flex px-10 flex-col rounded w-1/2 items-center py-4 dark:bg-neutral-700 dark:border-neutral-400 bg-white border">
           <h1 className="text-2xl">Sell Your NFT</h1>
 
           <input
@@ -42,14 +42,14 @@ export default function Sell() {
             id="address"
             value={nft.address}
             onChange={onInputChange}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            className="outline-none border dark:bg-slate-100 dark:border-neutral-400 dark:text-black rounded pl-2 py-2 w-full mt-4"
             placeholder="Contract Address"
           />
           <input
             id="tokenId"
             value={nft.tokenId}
             onChange={onInputChange}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            className="outline-none border dark:bg-slate-100 dark:border-neutral-400 dark:text-black rounded pl-2 py-2 w-full mt-4"
             type="number"
             placeholder="NFT ID"
           />
@@ -59,7 +59,7 @@ export default function Sell() {
             type="number"
             value={nft.price}
             placeholder="Price in MATIC"
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            className="outline-none border dark:bg-slate-100 dark:border-neutral-400 dark:text-black rounded pl-2 py-2 w-full mt-4"
           />
           <button
             onClick={sell}
