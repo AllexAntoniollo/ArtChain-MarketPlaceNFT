@@ -31,9 +31,9 @@ export function Message(props: NewMessage) {
             style={{ height: "70%" }}
             className="flex items-center justify-center"
           >
-            {props.type === "rejected" ? (
+            {props.type === "load" ? (
               <div className="c-loader"></div>
-            ) : props.type === "load" ? (
+            ) : props.type === "rejected" ? (
               <>
                 <div className="circle-border"></div>
                 <div className="circle">
