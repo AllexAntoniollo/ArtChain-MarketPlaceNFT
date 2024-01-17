@@ -13,7 +13,7 @@ interface ContextProps {
 }
 
 const GlobalContext = createContext<ContextProps>({
-  wallet: "", // Fix here
+  wallet: "",
   setWallet: (): void => {},
 });
 

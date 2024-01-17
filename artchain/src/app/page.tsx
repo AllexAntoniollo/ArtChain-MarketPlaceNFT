@@ -6,37 +6,54 @@ import { useEffect, useState } from "react";
 import { FaFire } from "react-icons/fa";
 import { loadNfts, MarketItem } from "@/services/Web3Service";
 export default function Home() {
-  const [nfts, setNfts] = useState<MarketItem[]>([]);
+  const [nftsl, setNftsl] = useState<MarketItem[]>([]);
   const [totalNfts, setTotalNfts] = useState<MarketItem[]>([]);
 
   useEffect(() => {
     loadNfts()
       .then((nfts) => {
         setTotalNfts(nfts);
-        setNfts(nfts);
+        setNftsl(nfts);
+
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const sentence = urlParams.get("sentence")?.toLowerCase() || undefined;
+        if (sentence !== undefined) {
+          setNftsl(
+            nfts.filter(
+              (nft) => nft.name.toLowerCase().indexOf(sentence) !== -1
+            )
+          );
+        } else {
+          setNftsl(nfts);
+        }
       })
-      .catch((err) => console.log(err.msg));
+      .catch((err) => console.log(err));
   }, []);
+
   function onSearchChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    const sentence = evt.target.value.toLocaleLowerCase();
-    setNfts(
-      totalNfts.filter((nft) => nft.name.toLowerCase().indexOf(sentence) !== -1)
+    const phrase = evt.target.value.toLowerCase();
+    setNftsl(
+      totalNfts.filter((nft) => nft.name.toLowerCase().indexOf(phrase) !== -1)
     );
   }
 
   return (
-    <>
+    <div className="">
       <Carousel></Carousel>
-      <section id="nfts" className="rounded-md mx-9 border p-8">
-        <h1 className="border-b  pb-3 flex justify-between">
-          <p className="text-3xl flex font-medium">
+      <section
+        id="nfts"
+        className="rounded-md mx-9 mb-12 dark:border-neutral-600 border p-8"
+      >
+        <div className="border-b dark:border-neutral-600 pb-3 flex justify-between">
+          <div className="text-3xl dark:text-neutral-300 flex font-medium">
             <FaFire></FaFire>
-            <p className="ml-4">Latest NFTs</p>
-          </p>{" "}
+            <p className="ml-4 ">Latest NFTs</p>
+          </div>
           <div className="relative">
             <input
               onChange={onSearchChange}
-              className="ease-linear duration-150 rounded-xl border p-2 pl-8 outline-none focus:border-purple-900 shadow-sl hover:shadow-lg"
+              className="ease-linear duration-150 dark:text-neutral-700 dark:bg-neutral-200 rounded-xl dark:border-neutral-600 border p-2 pl-8 outline-none focus:border-purple-900 shadow-sl hover:shadow-lg"
               placeholder="Search for NFTs..."
               type="text"
             />
@@ -44,19 +61,20 @@ export default function Home() {
               <CiSearch />
             </div>
           </div>
-        </h1>
+        </div>
 
         <div className="flex flex-wrap justify-around mt-6">
-          {nfts && nfts.length
-            ? nfts.map((nft: MarketItem, index) => (
-                <>
-                  <NFT key={index} {...nft} />
-                </>
-              ))
-            : "No NFTS for sale"}
+          {nftsl && nftsl.length ? (
+            nftsl.map((nft: MarketItem, index) => (
+              <>
+                <NFT key={index} {...nft} />
+              </>
+            ))
+          ) : (
+            <p>No NFTS for sale</p>
+          )}
         </div>
       </section>
-      <section className="mt-12"></section>
-    </>
+    </div>
   );
 }

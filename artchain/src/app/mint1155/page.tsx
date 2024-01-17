@@ -43,7 +43,7 @@ export default function Mint721() {
   return (
     <main>
       <section className="flex justify-center relative bg-custom pb-24">
-        <div className="grow max-w-xs mr-4 mt-5 rounded-2xl bg-white border ease-linear duration-200 relative p-2">
+        <div className="grow max-w-xs mr-4 mt-5 rounded-2xl dark:text-neutral-100 dark:bg-neutral-700 dark:border-neutral-400 bg-white border ease-linear duration-200 relative p-2">
           <h1 className="text-center py-3 text-2xl">Your NFT</h1>
 
           <div
@@ -53,14 +53,14 @@ export default function Mint721() {
               })`,
               backgroundSize: "100%",
             }}
-            className="w-full bg-no-repeat bg-center bg rounded-lg h-64  bg-gray-800"
+            className="w-full bg-no-repeat bg-center bg rounded-lg h-64  bg-gray-800 dark:bg-gray-300"
           ></div>
           <div className="ml-3">
             <div className="flex justify-between">
-              <p className="font-light text-slate-700 text-sm mt-2">
+              <p className="font-light text-slate-700 dark:text-neutral-300 text-sm mt-2">
                 by: {nft.author || "Author"}
               </p>
-              <p className="font-light text-slate-700 text-sm mt-2 ">
+              <p className="font-light text-slate-700 dark:text-neutral-300 text-sm mt-2 ">
                 1 of {nft.quantity}
               </p>
             </div>
@@ -69,23 +69,23 @@ export default function Mint721() {
           </div>
         </div>
       </section>
-      <section className="align justify-center py-10 bg-green-400 flex">
-        <div className="flex px-10 flex-col w-1/2 rounded items-center py-4 bg-white relative bottom-20 border">
-          <h1 className="text-2xl">Create Your NFT</h1>
+      <section className="align justify-center py-10 bg-green-400 dark:bg-green-800 flex">
+        <div className="flex px-10 flex-col w-1/2 rounded items-center py-4 dark:bg-neutral-700 dark:border-neutral-400 bg-white relative bottom-20 border">
+          <h1 className="text-2xl dark:text-neutral-200">Create Your NFT</h1>
           <input
             onChange={onInputChange}
             type="text"
             placeholder="Name"
             id="name"
             value={nft.name}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            className="outline-none border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
           />
           <input
             onChange={onInputChange}
             type="text"
             id="author"
             value={nft.author}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            className="outline-none border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
             placeholder="Author"
           />
           <input
@@ -93,7 +93,7 @@ export default function Mint721() {
             type="number"
             id="quantity"
             value={nft.quantity}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            className="outline-none border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
             placeholder="Amount/Supply"
           />
           <textarea
@@ -101,17 +101,17 @@ export default function Mint721() {
             placeholder="Description"
             id="description"
             value={nft.description}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            className="outline-none border rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
           />
           <input
             onChange={onFileChange}
-            className="outline-none border rounded pl-2 py-2 w-full mt-4"
+            className="outline-none border dark:text-neutral-200 rounded dark:border-neutral-400 pl-2 py-2 w-full mt-4"
             type="file"
             id="file"
           />
           <button
             onClick={mint}
-            className="px-6 py-3 rounded ease-linear  duration-100  bg-indigo-400 hover:bg-indigo-500 text-white w-2/3 mt-4"
+            className="px-6 py-3 rounded ease-linear  duration-100 dark:bg-indigo-700 dark:hover:bg-indigo-800 bg-indigo-400 hover:bg-indigo-500 text-white w-2/3 mt-4"
           >
             MINT NOW
           </button>

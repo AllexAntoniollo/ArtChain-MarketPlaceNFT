@@ -8,13 +8,13 @@ export default function Mint() {
   return (
     <main>
       <section className=" flex">
-        <form className="p-16 w-1/2">
+        <form className="p-16 dark:text-neutral-300 w-1/2">
           <h1 className="text-5xl mb-14 font-medium">
             <TfiCloud className="mr-4 inline"></TfiCloud>Create your NFT
           </h1>
           <Link
             href="/mint721"
-            className="border content hover:shadow-md items-center rounded-lg shadow flex p-7 mb-8"
+            className="border dark:border-neutral-500 content hover:shadow-md items-center rounded-lg shadow flex p-7 mb-8"
           >
             <div className="mr-8">
               <h3 className="text-xl font-semibold mb-4">
@@ -29,7 +29,7 @@ export default function Mint() {
           </Link>
           <Link
             href="/mint1155"
-            className="border content hover:shadow-md items-center rounded-lg shadow flex p-7 mb-8"
+            className="border dark:border-neutral-500 content hover:shadow-md items-center rounded-lg shadow flex p-7 mb-8"
           >
             <div>
               <h3 className="text-xl font-semibold mb-4">

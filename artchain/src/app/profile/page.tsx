@@ -64,19 +64,19 @@ export default function Profile() {
         style={{
           backgroundImage: "url(/forest.jpg)",
         }}
-        className="h-60 bg-no-repeat bg-cover bg-center border-b border-black "
+        className="h-60 bg-no-repeat bg-cover bg-center border-b border-black dark:border-neutral-400 "
       ></section>
       <section>
         <div
           style={{ margin: "0 auto" }}
-          className="rounded-full relative bottom-12 w-24 h-24 bg-green-400 border-black border"
+          className="rounded-full relative bottom-12 w-24 h-24 bg-green-400 dark:border-neutral-400 border-black border"
         >
-          <IoPencilSharp className="absolute bottom-0 translate-y-full text-white size-7 cursor-pointer rounded bg-purple-950 p-1 inset-1/2 transform -translate-x-1/2"></IoPencilSharp>
+          <IoPencilSharp className="absolute bottom-0 translate-y-full text-white size-7 cursor-pointer rounded dark:bg-purple-800 bg-purple-950 p-1 inset-1/2 transform -translate-x-1/2"></IoPencilSharp>
         </div>
-        <div className="flex text-purple-950 pb-12 flex-col items-center">
+        <div className="flex text-purple-950 dark:text-purple-600 pb-12 flex-col items-center">
           <h1 className="text-4xl font-bold">Allex Antoniollo</h1>
           <h1
-            className="p-2 mt-2 flex items-center bg-rose-50 hover:bg-rose-100 cursor-pointer rounded"
+            className="p-2 mt-2 flex items-center dark:bg-violet-100 dark:hover:bg-violet-200 bg-rose-50 hover:bg-rose-100 cursor-pointer rounded"
             onClick={handleCopyClick}
           >
             {wallet}
@@ -139,7 +139,7 @@ export default function Profile() {
               )
             )
           ) : (
-            <p>No NFTs available.</p>
+            <p className="dark:text-neutral-300">No NFTs available.</p>
           )}
         </section>
       </section>

@@ -13,7 +13,9 @@ const HoverDiv = (props: any) => {
     >
       <Link
         href={"/details/" + props.itemId}
-        className={"hiddenDiv hover:bg-black bg-gray-900"}
+        className={
+          "hiddenDiv hover:bg-gray-950 dark:bg-neutral-200 dark:text-neutral-700 dark:hover:bg-white transition-all duration-300 bg-gray-900"
+        }
       >
         View Details
       </Link>

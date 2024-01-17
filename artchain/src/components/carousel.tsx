@@ -71,12 +71,10 @@ const Carousel = () => {
           className={`flex mx-9 bg-yellow-400 relative rounded-xl p-16`}
         >
           {" "}
-          {/* Carousel container */}
           <div
             style={{ height: "500px" }}
             className="w-2/4  rounded-md overflow-hidden relative"
           >
-            {/* Image container */}
             <div
               ref={carouselRef}
               style={{
@@ -84,7 +82,6 @@ const Carousel = () => {
               }}
               className="w-full h-full absolute flex transition-all duration-300"
             >
-              {/* Map through data to render images */}
               {data.map((v, i) => (
                 <div
                   key={i}
@@ -182,7 +179,7 @@ const Carousel = () => {
           )}
           <div
             onClick={handlePrevClick}
-            className="absolute top-1/2 transform -translate-y-1/2 -left-6 p-3 bg-white rounded-full shadow-md cursor-pointer"
+            className="absolute top-1/2 transform -translate-y-1/2 -left-6 p-3 dark:bg-neutral-800 dark:text-neutral-100 bg-white rounded-full shadow-md cursor-pointer"
           >
             <IoIosArrowBack
               className={`text-xl ${currentImg === 0 && "opacity-50"}`}
@@ -190,7 +187,7 @@ const Carousel = () => {
           </div>
           <div
             onClick={handleNextClick}
-            className="absolute top-1/2 transform -translate-y-1/2 -right-6 p-3 bg-white rounded-full shadow-md cursor-pointer"
+            className="absolute dark:bg-neutral-800 dark:text-neutral-100 top-1/2 transform -translate-y-1/2 -right-6 p-3 bg-white rounded-full shadow-md cursor-pointer"
           >
             <IoIosArrowForward
               className={`text-xl ${
@@ -201,7 +198,6 @@ const Carousel = () => {
         </div>
       </section>
       <section className="py-12 mx-9 flex justify-center">
-        {/* Map through data to render divs */}
         {data.map((_, i) => (
           <div
             key={i}

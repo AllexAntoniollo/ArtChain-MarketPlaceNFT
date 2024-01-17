@@ -15,17 +15,17 @@ export default function Footer() {
             className="rounded cursor-pointer"
           ></Image>
           {""}
-          <h1 className="ml-5 text-3xl text-white font-semibold">
+          <h1 className="ml-5 text-3xl text-white dark:text-neutral-900 font-semibold">
             Art Chain Marketplace
           </h1>
         </div>
-        <div className="flex mt-4 mb-8">
-          <FaXTwitter className="cursor-pointer ease-linear  duration-100 rounded bg-blue-500 hover:bg-blue-600 hover:border-white p-2 mr-3 size-12 text-white "></FaXTwitter>
-          <FaDiscord className=" p-2 rounded ease-linear  duration-100 bg-blue-500 hover:bg-blue-600 hover:border-white cursor-pointer size-12 text-white"></FaDiscord>
+        <div className="flex mt-4 mb-8 dark:text-neutral-900 text-white">
+          <FaXTwitter className="cursor-pointer ease-linear  duration-100 rounded dark:bg-blue-800 bg-blue-500 hover:bg-blue-600 hover:border-white p-2 mr-3 size-12 "></FaXTwitter>
+          <FaDiscord className=" p-2 rounded ease-linear  duration-100 bg-blue-500 dark:bg-blue-800 hover:bg-blue-600 hover:border-white cursor-pointer size-12 "></FaDiscord>
         </div>
-        <div className="border-t py-8">
-          <h1 className="text-2xl text-white">Stay in the loop</h1>
-          <p className="mt-3 max-w-lg text-white">
+        <div className="border-t dark:border-neutral-800 py-8 dark:text-neutral-900 text-white ">
+          <h1 className="text-2xl  ">Stay in the loop</h1>
+          <p className="mt-3 max-w-lg ">
             Join our mailing list to stay in the loop with our newest feature
             releases, NFT drops, and tips and tricks for navigating ArtChain.
           </p>
@@ -40,7 +40,7 @@ export default function Footer() {
             </button>
           </div>
         </div>
-        <div className="border-t py-2 flex text-white justify-center items-center column">
+        <div className="border-t dark:border-neutral-800 py-2 flex text-white dark:text-neutral-900 justify-center items-center column">
           <p>Copyright Allex Antoniollo, 2024</p>
         </div>
       </footer>

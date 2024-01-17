@@ -52,7 +52,7 @@ export default function Details() {
           backgroundImage: "url(/star.jpg)",
           backgroundSize: "100%",
         }}
-        className="border-b border-black h-60"
+        className="border-b dark:border-neutral-400 border-black h-60"
       ></section>
       <section>
         <div
@@ -61,16 +61,16 @@ export default function Details() {
             backgroundImage: `url(/pinata/getImage?uri=${nft.image})`,
             backgroundSize: "100%",
           }}
-          className="absolute bg-white left-1/2 bg-center bg-no-repeat bg-contain  -translate-y-3/4 -translate-x-1/2 rounded w-96 h-96 border border-black"
+          className="absolute dark:border-neutral-400 bg-white dark:bg-neutral-600 left-1/2 bg-center bg-no-repeat bg-contain  -translate-y-3/4 -translate-x-1/2 rounded w-96 h-96 border border-black"
         ></div>
-        <div className="flex text-purple-950 p-40 flex-col mt-24 items-center">
+        <div className="flex text-purple-950 dark:text-purple-600 p-40 flex-col mt-24 items-center">
           <h1 className="text-4xl font-bold">
             {nft.name} #{String(nft.tokenId)}
           </h1>
           <p className=" font-light mt-2">By: {nft.author}</p>
           <h1
             onClick={handleCopyClick}
-            className="p-2 mt-2 flex items-center bg-rose-50 hover:bg-rose-100 cursor-pointer rounded"
+            className="p-2 mt-2 flex items-center dark:bg-violet-100 dark:hover:bg-violet-200 bg-rose-50 hover:bg-rose-100 cursor-pointer rounded"
           >
             {nft.nftContract}
             {copied ? (
