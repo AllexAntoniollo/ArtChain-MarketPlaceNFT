@@ -1,6 +1,6 @@
 # ArtChain-MarketPlaceNFT
 
-A Dapp of voluntary campaign, you can create a new campaign with a goal, or make donations to an existent campaign.
+Welcome to ArtChain, the ultimate NFT marketplace where digital art meets blockchain. Discover and collect unique, one-of-a-kind digital artworks as Non-Fungible Tokens (NFTs). Artists tokenize their creations, providing a decentralized and transparent platform for showcasing and monetizing talent. Join ArtChain for an exclusive and secure art experience, connecting artists and collectors in a dynamic digital marketplace. Embrace the future of art with ArtChain - Where Creativity Meets Blockchain.
 
 ## Softwares
 
