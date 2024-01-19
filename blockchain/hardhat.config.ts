@@ -8,7 +8,7 @@ dotenv.config();
 const config: HardhatUserConfig = {
   solidity: "0.8.23",
   networks: {
-    mumbai: {
+    sepolia: {
       url: process.env.RPC_URL,
       chainId: parseInt(`${process.env.CHAIN_ID}`),
       accounts: {

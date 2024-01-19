@@ -3,7 +3,6 @@ import { EventLog, ethers } from "ethers";
 import MarketABI from "./Market.abi.json";
 import Erc721ABI from "./Erc721.abi.json";
 import Erc1155ABI from "./Erc1155.abi.json";
-import { ContractTransactionReceipt } from "ethers";
 
 const MARKETPLACE_ADDRESS = `${process.env.MARKETPLACE_ADDRESS}`;
 const ERC721 = `${process.env.ERC721}`;
@@ -25,12 +24,12 @@ export async function doLogin() {
   return account[0];
 }
 
-export type NewNFT721 = {
+export type NewNFT = {
   name?: string;
   image?: File;
   description?: string;
   author?: string;
-  quantity: number;
+  quantity?: number;
 };
 
 async function uploadFile(file: File): Promise<string> {
@@ -66,12 +65,18 @@ export type Metadata = {
   author?: string;
 };
 
-async function createItem(url: string): Promise<number> {
+async function createItem(url: string, amount?: number): Promise<number> {
   const provider = await getProvider();
   const signer = await provider.getSigner();
+  let mintTx;
 
-  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, signer);
-  const mintTx = await collectionContract.safeMint(url);
+  if (!amount) {
+    const collectionContract = new ethers.Contract(ERC721, Erc721ABI, signer);
+    mintTx = await collectionContract.safeMint(url);
+  } else {
+    const collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, signer);
+    mintTx = await collectionContract.mint(amount, url);
+  }
   const mintTxReceipt: ethers.ContractTransactionReceipt = await mintTx.wait();
   let eventLog = mintTxReceipt.logs[0] as EventLog;
   const tokenId = Number(eventLog.args[2]);
@@ -79,7 +84,7 @@ async function createItem(url: string): Promise<number> {
   return tokenId;
 }
 
-export async function uploadAndCreate(nft: NewNFT721): Promise<number> {
+export async function uploadAndCreate(nft: NewNFT): Promise<number> {
   if (!nft.image || !nft.name || !nft.description || !nft.author) {
     throw new Error("All fields are required");
   }
@@ -93,7 +98,7 @@ export async function uploadAndCreate(nft: NewNFT721): Promise<number> {
     image: uri,
   });
 
-  const tokenId = createItem(metadataUri);
+  const tokenId = createItem(metadataUri, nft.quantity);
 
   return tokenId;
 }
@@ -102,6 +107,7 @@ export type SellNewNFT = {
   price?: string;
   address?: string;
   tokenId?: string;
+  amount?: number;
 };
 
 export async function sellNFT(nft: SellNewNFT): Promise<number> {
@@ -111,18 +117,38 @@ export async function sellNFT(nft: SellNewNFT): Promise<number> {
 
   const provider = await getProvider();
   const signer = await provider.getSigner();
-
-  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, signer);
-
-  const isApproved = await collectionContract.getApproved(nft.tokenId);
-  if (isApproved !== MARKETPLACE_ADDRESS) {
-    const txApprove = await collectionContract.approve(
-      MARKETPLACE_ADDRESS,
-      nft.tokenId
+  let isApproved, collectionContract;
+  if (nft.amount && nft.amount > 0) {
+    collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, signer);
+    isApproved = await collectionContract.isApprovedForAll(
+      signer.address,
+      MARKETPLACE_ADDRESS
     );
-    await txApprove.wait();
+  } else {
+    collectionContract = new ethers.Contract(ERC721, Erc721ABI, signer);
+    isApproved = await collectionContract.getApproved(nft.tokenId);
   }
 
+  if (typeof isApproved === "boolean") {
+    if (isApproved !== true) {
+      const txApprove = await collectionContract.setApprovalForAll(
+        MARKETPLACE_ADDRESS,
+        true
+      );
+      await txApprove.wait();
+    }
+  } else {
+    if (isApproved !== MARKETPLACE_ADDRESS) {
+      console.log(collectionContract);
+
+      const txApprove = await collectionContract.approve(
+        MARKETPLACE_ADDRESS,
+        nft.tokenId
+      );
+
+      await txApprove.wait();
+    }
+  }
   const marketContract = new ethers.Contract(
     MARKETPLACE_ADDRESS,
     MarketABI,
@@ -130,13 +156,25 @@ export async function sellNFT(nft: SellNewNFT): Promise<number> {
   );
 
   const listingPrice = ethers.parseUnits("0.01", "ether").toString();
+  let tx;
 
-  const tx = await marketContract.createMarketItem(
-    ethers.parseUnits(nft.price, "ether"),
-    nft.address,
-    Number(nft.tokenId),
-    { value: listingPrice }
-  );
+  if (nft.amount && nft.amount > 0) {
+    for (let index = 0; index < nft.amount; index++) {
+      tx = await marketContract.createMarketItem(
+        ethers.parseUnits(nft.price, "ether"),
+        nft.address,
+        Number(nft.tokenId),
+        { value: listingPrice }
+      );
+    }
+  } else {
+    tx = await marketContract.createMarketItem(
+      ethers.parseUnits(nft.price, "ether"),
+      nft.address,
+      Number(nft.tokenId),
+      { value: listingPrice }
+    );
+  }
 
   const txReceipt: ethers.ContractTransactionReceipt = await tx.wait();
 
@@ -177,10 +215,26 @@ export async function getDetails(itemId: number): Promise<MarketItem> {
   const item: MarketItem = await marketContract.marketItems(itemId);
 
   if (item.seller === ethers.ZeroAddress) return {} as MarketItem;
+  const contract = new ethers.Contract(
+    item.nftContract,
+    [
+      "function supportsInterface(bytes4 interfaceId) external view returns (bool)",
+    ],
+    provider
+  );
+  const isERC721 = await contract.supportsInterface("0x80ac58cd");
+  const isERC1155 = await contract.supportsInterface("0xd9b67a26");
 
-  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
-
-  const tokenUri = await collectionContract.tokenURI(item.tokenId);
+  let tokenUri: string, collectionContract;
+  if (isERC1155) {
+    collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, provider);
+    tokenUri = await collectionContract.uri(item.tokenId);
+  } else if (isERC721) {
+    collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+    tokenUri = await collectionContract.tokenURI(item.tokenId);
+  } else {
+    tokenUri = "404";
+  }
 
   const metadata = await axios({
     method: "POST",
@@ -224,7 +278,6 @@ export async function getDetails(itemId: number): Promise<MarketItem> {
 
 export async function loadNfts(): Promise<MarketItem[]> {
   const provider = await getProvider();
-
   const marketContract = new ethers.Contract(
     MARKETPLACE_ADDRESS,
     MarketABI,
@@ -232,11 +285,29 @@ export async function loadNfts(): Promise<MarketItem[]> {
   );
   const items: MarketItem[] = await marketContract.fetchMarketItems();
   if (items[0].seller === ethers.ZeroAddress) return [] as MarketItem[];
-
-  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+  let collectionContract, tokenUri: string;
 
   const metadataPromises = items.map(async (item: MarketItem) => {
-    const tokenUri = await collectionContract.tokenURI(item.tokenId);
+    const contract = new ethers.Contract(
+      item.nftContract,
+      [
+        "function supportsInterface(bytes4 interfaceId) external view returns (bool)",
+      ],
+      provider
+    );
+    const isERC721 = await contract.supportsInterface("0x80ac58cd");
+    const isERC1155 = await contract.supportsInterface("0xd9b67a26");
+
+    if (isERC1155) {
+      collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, provider);
+      tokenUri = await collectionContract.uri(item.tokenId);
+    } else if (isERC721) {
+      collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+      tokenUri = await collectionContract.tokenURI(item.tokenId);
+    } else {
+      tokenUri = "404";
+    }
+
     const response = await axios({
       method: "POST",
       url: "/pinata/getMetadata",
@@ -322,11 +393,28 @@ export async function itemsCreated(): Promise<MarketItem[]> {
   if (items[0].seller === ethers.ZeroAddress) {
     return [] as MarketItem[];
   }
-
-  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
-
+  let collectionContract, tokenUri: string;
   const metadataPromises = items.map(async (item: MarketItem) => {
-    const tokenUri = await collectionContract.tokenURI(item.tokenId);
+    const contract = new ethers.Contract(
+      item.nftContract,
+      [
+        "function supportsInterface(bytes4 interfaceId) external view returns (bool)",
+      ],
+      provider
+    );
+    const isERC721 = await contract.supportsInterface("0x80ac58cd");
+    const isERC1155 = await contract.supportsInterface("0xd9b67a26");
+
+    if (isERC1155) {
+      collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, provider);
+      tokenUri = await collectionContract.uri(item.tokenId);
+    } else if (isERC721) {
+      collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+      tokenUri = await collectionContract.tokenURI(item.tokenId);
+    } else {
+      tokenUri = "404";
+    }
+
     const response = await axios({
       method: "POST",
       url: "/pinata/getMetadata",
@@ -384,10 +472,28 @@ export async function myNFTs(): Promise<MarketItem[]> {
     from: signer.address,
   });
 
-  const collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
-
+  let collectionContract, tokenUri: string;
   const metadataPromises = items.map(async (item: MarketItem) => {
-    const tokenUri = await collectionContract.tokenURI(item.tokenId);
+    const contract = new ethers.Contract(
+      item.nftContract,
+      [
+        "function supportsInterface(bytes4 interfaceId) external view returns (bool)",
+      ],
+      provider
+    );
+    const isERC721 = await contract.supportsInterface("0x80ac58cd");
+    const isERC1155 = await contract.supportsInterface("0xd9b67a26");
+
+    if (isERC1155) {
+      collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, provider);
+      tokenUri = await collectionContract.uri(item.tokenId);
+    } else if (isERC721) {
+      collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+      tokenUri = await collectionContract.tokenURI(item.tokenId);
+    } else {
+      tokenUri = "404";
+    }
+
     const response = await axios({
       method: "POST",
       url: "/pinata/getMetadata",

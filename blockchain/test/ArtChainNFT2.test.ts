@@ -18,17 +18,15 @@ describe("ArtChainNFT2", function () {
   it("Should mint", async function () {
     const { ArtChainNFT, owner } = await loadFixture(deployFixture);
 
-    await ArtChainNFT.mint(2);
+    await ArtChainNFT.mint(2, "metadata");
 
     expect(await ArtChainNFT.balanceOf(owner.address, 1)).to.equal(2);
   });
   it("Should get uri", async function () {
     const { ArtChainNFT } = await loadFixture(deployFixture);
 
-    await ArtChainNFT.mint(2);
+    await ArtChainNFT.mint(2, "metadata");
 
-    expect(await ArtChainNFT.uri(1)).to.equal(
-      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/QmU4brx9ooQs8iYdSDDuXkoaY61w6cpHZZn4Ku9Q3LtKCN/01.json"
-    );
+    expect(await ArtChainNFT.uri(1)).to.equal("ipfs://metadata");
   });
 });

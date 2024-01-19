@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat coverage",
-    "deploy": "npx hardhat run scripts/deploy.ts --network mumbai"
+    "deploy": "npx hardhat run scripts/deploy.ts --network sepolia"
   },
   "keywords": [],
   "author": "",

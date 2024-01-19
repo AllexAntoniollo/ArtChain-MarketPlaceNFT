@@ -20,8 +20,8 @@ describe("ArtChainNFT", function () {
 
     await ArtChainNFT.safeMint("metadata");
 
-    await expect(await ArtChainNFT.tokenURI(0)).to.equal(
-      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/QmU4brx9ooQs8iYdSDDuXkoaY61w6cpHZZn4Ku9Q3LtKCN/metadata"
+    await expect(await ArtChainNFT.tokenURI(1)).to.equal(
+      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/metadata"
     );
   });
 

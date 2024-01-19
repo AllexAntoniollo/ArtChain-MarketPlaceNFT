@@ -3,10 +3,13 @@ pragma solidity ^0.8.23;
 
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/interfaces/IERC165.sol";
 
 
-contract ArtChain is ReentrancyGuard {
+contract ArtChain is ReentrancyGuard, ERC1155Holder {
 
 
     uint private listingPrice = 0.01 ether;
@@ -39,7 +42,14 @@ contract ArtChain is ReentrancyGuard {
          marketItems[_marketId] =  MarketItem(
             _marketId, nftContract, tokenId, payable(msg.sender), payable(address(0)), price, false
          );
-        IERC721(nftContract).transferFrom(msg.sender,address(this),tokenId);
+         if (IERC165(nftContract).supportsInterface(0xd9b67a26)) {
+            IERC1155(nftContract).safeTransferFrom(msg.sender,address(this),tokenId,1,"");
+         }else if(IERC165(nftContract).supportsInterface(0x80ac58cd)){
+            IERC721(nftContract).transferFrom(msg.sender,address(this),tokenId);
+         }
+         else{
+            revert("Unsupported NFT contract interface");
+         }
         emit MarketItemCreated(_marketId, nftContract, tokenId, msg.sender, price);
         payable(owner).transfer(listingPrice);
     }
@@ -54,7 +64,14 @@ contract ArtChain is ReentrancyGuard {
         marketItems[marketId].seller.transfer(msg.value);
 
         ++_marketSold;
-        IERC721(nftContract).transferFrom(address(this),msg.sender,tokenId);
+        if (IERC165(nftContract).supportsInterface(0xd9b67a26)) {
+            IERC1155(nftContract).safeTransferFrom(address(this),msg.sender,tokenId,1,"");
+         }else if(IERC165(nftContract).supportsInterface(0x80ac58cd)){
+            IERC721(nftContract).transferFrom(address(this),msg.sender,tokenId);
+         }
+         else{
+            revert("Unsupported NFT contract interface");
+         }
 
         marketItems[marketId].owner = payable(msg.sender);
         marketItems[marketId].sold = true;

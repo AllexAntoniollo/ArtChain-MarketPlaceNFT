@@ -1,10 +1,10 @@
 "use client";
-import { NewNFT721, uploadAndCreate } from "@/services/Web3Service";
+import { NewNFT, uploadAndCreate } from "@/services/Web3Service";
 import { ChangeEvent, useState } from "react";
 import { NewMessage, Message } from "@/components/message";
 
 export default function Mint721() {
-  const [nft, setNft] = useState<NewNFT721>({} as NewNFT721);
+  const [nft, setNft] = useState<NewNFT>({} as NewNFT);
   const [message, setMessage] = useState<NewMessage>({} as NewMessage);
 
   function onInputChange(
@@ -32,7 +32,7 @@ export default function Mint721() {
     }
     setMessage({ message: "Connecting MetaMask...wait...", type: "load" });
     await uploadAndCreate(nft)
-      .then((itemId) => {
+      .then((tokenId) => {
         setMessage({
           message: "NFT created successfully!",
           type: "successfully",

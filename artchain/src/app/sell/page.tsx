@@ -1,74 +1,58 @@
-"use client";
-import { sellNFT, SellNewNFT } from "@/services/Web3Service";
-import { useState } from "react";
-import { ChangeEvent } from "react";
-import { NewMessage, Message } from "@/components/message";
+import Link from "next/link";
+import { CiGrid41 } from "react-icons/ci";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { PiImageThin } from "react-icons/pi";
+import { TfiCloud } from "react-icons/tfi";
+
 export default function Sell() {
-  const [nft, setNft] = useState<SellNewNFT>({});
-  const [message, setMessage] = useState<NewMessage>({} as NewMessage);
-
-  function onInputChange(evt: ChangeEvent<HTMLInputElement>) {
-    setNft((prevState) => ({
-      ...prevState,
-      [evt.target.id]: evt.target.value,
-    }));
-  }
-
-  async function sell() {
-    if (!nft) {
-      return;
-    }
-
-    setMessage({ type: "load", message: "Connecting MetaMask...wait..." });
-    await sellNFT(nft)
-      .then((itemId) => {
-        setMessage({
-          type: "successfully",
-          message: "NFT has been added on marketplace!",
-        });
-
-        window.location.href = "/details/" + itemId;
-      })
-      .catch((err) => setMessage({ message: err.msg, type: "rejected" }));
-  }
   return (
-    <main>
-      <section className="align bg-custom justify-center py-10 flex">
-        <div className="flex px-10 flex-col rounded w-1/2 items-center py-4 dark:bg-neutral-700 dark:border-neutral-400 bg-white border">
-          <h1 className="text-2xl">Sell Your NFT</h1>
-
-          <input
-            type="text"
-            id="address"
-            value={nft.address}
-            onChange={onInputChange}
-            className="outline-none border dark:bg-slate-100 dark:border-neutral-400 dark:text-black rounded pl-2 py-2 w-full mt-4"
-            placeholder="Contract Address"
-          />
-          <input
-            id="tokenId"
-            value={nft.tokenId}
-            onChange={onInputChange}
-            className="outline-none border dark:bg-slate-100 dark:border-neutral-400 dark:text-black rounded pl-2 py-2 w-full mt-4"
-            type="number"
-            placeholder="NFT ID"
-          />
-          <input
-            id="price"
-            onChange={onInputChange}
-            type="number"
-            value={nft.price}
-            placeholder="Price in MATIC"
-            className="outline-none border dark:bg-slate-100 dark:border-neutral-400 dark:text-black rounded pl-2 py-2 w-full mt-4"
-          />
-          <button
-            onClick={sell}
-            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded text-white w-2/3 mt-4"
+    <main className="dark:bg-neutral-900">
+      <section className=" flex">
+        <form className="p-16 dark:text-neutral-300 w-1/2">
+          <h1 className="text-5xl mb-14 font-medium">
+            <TfiCloud className="mr-4 inline"></TfiCloud>Sell your NFT
+          </h1>
+          <Link
+            href="/sell721"
+            className="border dark:border-neutral-500 content hover:shadow-md items-center rounded-lg shadow flex p-7 mb-8"
           >
-            SELL
-          </button>
-          {message.message ? <Message {...message} /> : ""}
-        </div>
+            <div className="mr-8">
+              <h3 className="text-xl font-semibold mb-4">
+                <PiImageThin className="inline-block size-8 mr-4"></PiImageThin>
+                Sell ERC721
+              </h3>
+              <p>In ERC721 each token is unique and indivisible.</p>
+            </div>
+            <div className="ml-6">
+              <FaArrowRightLong></FaArrowRightLong>
+            </div>
+          </Link>
+          <Link
+            href="/sell1155"
+            className="border dark:border-neutral-500 content hover:shadow-md items-center rounded-lg shadow flex p-7 mb-8"
+          >
+            <div>
+              <h3 className="text-xl font-semibold mb-4">
+                <CiGrid41 className="inline-block size-8 mr-4"></CiGrid41>
+                Sell ERC1155
+              </h3>
+              <p>In ERC1155 the tokens can be unique or non-unique.</p>
+            </div>
+            <div className="ml-6">
+              <FaArrowRightLong></FaArrowRightLong>
+            </div>
+          </Link>
+        </form>
+        <div
+          style={{
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundImage:
+              "url('https://cdn.pixabay.com/photo/2022/04/20/12/16/abstract-art-7145098_1280.jpg')",
+          }}
+          className="w-1/2"
+        ></div>
       </section>
     </main>
   );

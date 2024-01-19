@@ -9,14 +9,13 @@ export function NFT(props: MarketItem) {
           backgroundImage: `url(/pinata/getImage?uri=${props.image})`,
           backgroundSize: "100%",
         }}
-        className="w-full bg-center rounded-lg h-64  "
+        className="w-full bg-no-repeat bg-center rounded-lg h-64  "
       >
         <HoverDiv itemId={props.itemId}></HoverDiv>
       </div>
       <div className="mx-3 text-slate-700 dark:text-neutral-400">
         <div className="flex justify-between">
           <p className="font-light   text-sm mt-2">by: {props.author}</p>
-          <p className="font-light  text-sm mt-2 ">1 of 1</p>
         </div>{" "}
         <p className="text-xl mt-2">{props.name}</p>
       </div>
