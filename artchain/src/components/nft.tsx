@@ -6,7 +6,7 @@ export function NFT(props: MarketItem) {
     <div className="max-w-xs w-80 mr-4 mt-5 rounded-2xl border dark:border-neutral-600 p-2 content shadow  hover:shadow-md">
       <div
         style={{
-          backgroundImage: `url(/pinata/getImage?uri=${props.image})`,
+          backgroundImage: `url(${props.image})`,
           backgroundSize: "100%",
         }}
         className="w-full bg-no-repeat bg-center rounded-lg h-64  "

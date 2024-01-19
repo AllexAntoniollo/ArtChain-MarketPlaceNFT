@@ -48,8 +48,7 @@ export default function Sell() {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
-            backgroundImage:
-              "url('https://cdn.pixabay.com/photo/2022/04/20/12/16/abstract-art-7145098_1280.jpg')",
+            backgroundImage: "url(/castle.jpg)",
           }}
           className="w-1/2"
         ></div>

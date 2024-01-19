@@ -119,13 +119,13 @@ export async function sellNFT(nft: SellNewNFT): Promise<number> {
   const signer = await provider.getSigner();
   let isApproved, collectionContract;
   if (nft.amount && nft.amount > 0) {
-    collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, signer);
+    collectionContract = new ethers.Contract(nft.address, Erc1155ABI, signer);
     isApproved = await collectionContract.isApprovedForAll(
       signer.address,
       MARKETPLACE_ADDRESS
     );
   } else {
-    collectionContract = new ethers.Contract(ERC721, Erc721ABI, signer);
+    collectionContract = new ethers.Contract(nft.address, Erc721ABI, signer);
     isApproved = await collectionContract.getApproved(nft.tokenId);
   }
 
@@ -139,8 +139,6 @@ export async function sellNFT(nft: SellNewNFT): Promise<number> {
     }
   } else {
     if (isApproved !== MARKETPLACE_ADDRESS) {
-      console.log(collectionContract);
-
       const txApprove = await collectionContract.approve(
         MARKETPLACE_ADDRESS,
         nft.tokenId
@@ -224,40 +222,47 @@ export async function getDetails(itemId: number): Promise<MarketItem> {
   );
   const isERC721 = await contract.supportsInterface("0x80ac58cd");
   const isERC1155 = await contract.supportsInterface("0xd9b67a26");
-
   let tokenUri: string, collectionContract;
   if (isERC1155) {
-    collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, provider);
+    collectionContract = new ethers.Contract(
+      item.nftContract,
+      Erc1155ABI,
+      provider
+    );
     tokenUri = await collectionContract.uri(item.tokenId);
   } else if (isERC721) {
-    collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+    collectionContract = new ethers.Contract(
+      item.nftContract,
+      Erc721ABI,
+      provider
+    );
     tokenUri = await collectionContract.tokenURI(item.tokenId);
   } else {
     tokenUri = "404";
   }
-
-  const metadata = await axios({
-    method: "POST",
-    url: "/pinata/getMetadata",
-    data: {
-      uri: tokenUri.replace("ipfs://", ""),
-    },
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  let imageUrl = metadata.data.image;
-
-  if (
-    !imageUrl.startsWith(
-      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
-    )
-  ) {
-    imageUrl =
-      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/" + imageUrl;
+  let metadata,
+    imageUrl: string = "",
+    nameUrl: string = "",
+    descriptionUrl: string = "",
+    authorUrl: string = "";
+  try {
+    const resposta = await fetch(tokenUri);
+    if (resposta.ok) {
+      metadata = await resposta.json();
+      imageUrl = metadata.image;
+      nameUrl = metadata.name;
+      descriptionUrl = metadata.description;
+      authorUrl = metadata.author;
+    } else {
+      console.error(
+        "Erro ao obter o JSON:",
+        resposta.status,
+        resposta.statusText
+      );
+    }
+  } catch (error) {
+    console.error("Erro ao processar a requisição:");
   }
-
-  imageUrl = imageUrl.replace("ipfs://", "");
 
   const market = {
     itemId: item.itemId,
@@ -268,9 +273,9 @@ export async function getDetails(itemId: number): Promise<MarketItem> {
     price: item.price,
     sold: item.sold,
     image: imageUrl,
-    name: metadata.data.name,
-    description: metadata.data.description,
-    author: metadata.data.author,
+    name: nameUrl,
+    description: descriptionUrl,
+    author: authorUrl,
   } as MarketItem;
 
   return market;
@@ -299,38 +304,46 @@ export async function loadNfts(): Promise<MarketItem[]> {
     const isERC1155 = await contract.supportsInterface("0xd9b67a26");
 
     if (isERC1155) {
-      collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, provider);
+      collectionContract = new ethers.Contract(
+        item.nftContract,
+        Erc1155ABI,
+        provider
+      );
       tokenUri = await collectionContract.uri(item.tokenId);
     } else if (isERC721) {
-      collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+      collectionContract = new ethers.Contract(
+        item.nftContract,
+        Erc721ABI,
+        provider
+      );
       tokenUri = await collectionContract.tokenURI(item.tokenId);
     } else {
       tokenUri = "404";
     }
 
-    const response = await axios({
-      method: "POST",
-      url: "/pinata/getMetadata",
-      data: {
-        uri: tokenUri.replace("ipfs://", ""),
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    let imageUrl = response.data.image;
-
-    if (
-      !imageUrl.startsWith(
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
-      )
-    ) {
-      imageUrl =
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/" + imageUrl;
+    let metadata,
+      imageUrl: string = "",
+      nameUrl: string = "",
+      descriptionUrl: string = "",
+      authorUrl: string = "";
+    try {
+      const resposta = await fetch(tokenUri);
+      if (resposta.ok) {
+        metadata = await resposta.json();
+        imageUrl = metadata.image;
+        nameUrl = metadata.name;
+        descriptionUrl = metadata.description;
+        authorUrl = metadata.author;
+      } else {
+        console.error(
+          "Erro ao obter o JSON:",
+          resposta.status,
+          resposta.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao processar a requisição:");
     }
-
-    imageUrl = imageUrl.replace("ipfs://", "");
-
     return {
       itemId: item.itemId,
       tokenId: item.tokenId,
@@ -339,9 +352,9 @@ export async function loadNfts(): Promise<MarketItem[]> {
       nftContract: item.nftContract,
       price: item.price,
       sold: item.sold,
-      name: response.data.name,
-      author: response.data.author,
-      description: response.data.description,
+      name: nameUrl,
+      author: authorUrl,
+      description: descriptionUrl,
       image: imageUrl,
     } as MarketItem;
   });
@@ -406,38 +419,46 @@ export async function itemsCreated(): Promise<MarketItem[]> {
     const isERC1155 = await contract.supportsInterface("0xd9b67a26");
 
     if (isERC1155) {
-      collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, provider);
+      collectionContract = new ethers.Contract(
+        item.nftContract,
+        Erc1155ABI,
+        provider
+      );
       tokenUri = await collectionContract.uri(item.tokenId);
     } else if (isERC721) {
-      collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+      collectionContract = new ethers.Contract(
+        item.nftContract,
+        Erc721ABI,
+        provider
+      );
       tokenUri = await collectionContract.tokenURI(item.tokenId);
     } else {
       tokenUri = "404";
     }
 
-    const response = await axios({
-      method: "POST",
-      url: "/pinata/getMetadata",
-      data: {
-        uri: tokenUri.replace("ipfs://", ""),
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    let imageUrl = response.data.image;
-
-    if (
-      !imageUrl.startsWith(
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
-      )
-    ) {
-      imageUrl =
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/" + imageUrl;
+    let metadata,
+      imageUrl: string = "",
+      nameUrl: string = "",
+      descriptionUrl: string = "",
+      authorUrl: string = "";
+    try {
+      const resposta = await fetch(tokenUri);
+      if (resposta.ok) {
+        metadata = await resposta.json();
+        imageUrl = metadata.image;
+        nameUrl = metadata.name;
+        descriptionUrl = metadata.description;
+        authorUrl = metadata.author;
+      } else {
+        console.error(
+          "Erro ao obter o JSON:",
+          resposta.status,
+          resposta.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao processar a requisição:");
     }
-
-    imageUrl = imageUrl.replace("ipfs://", "");
-
     return {
       itemId: item.itemId,
       tokenId: item.tokenId,
@@ -446,16 +467,16 @@ export async function itemsCreated(): Promise<MarketItem[]> {
       nftContract: item.nftContract,
       price: item.price,
       sold: item.sold,
-      name: response.data.name,
-      author: response.data.author,
-      description: response.data.description,
+      name: nameUrl,
+      author: authorUrl,
+      description: descriptionUrl,
       image: imageUrl,
     } as MarketItem;
   });
 
   const itemsWithMetadata: MarketItem[] = await Promise.all(metadataPromises);
 
-  return itemsWithMetadata;
+  return itemsWithMetadata.reverse();
 }
 
 export async function myNFTs(): Promise<MarketItem[]> {
@@ -485,37 +506,46 @@ export async function myNFTs(): Promise<MarketItem[]> {
     const isERC1155 = await contract.supportsInterface("0xd9b67a26");
 
     if (isERC1155) {
-      collectionContract = new ethers.Contract(ERC1155, Erc1155ABI, provider);
+      collectionContract = new ethers.Contract(
+        item.nftContract,
+        Erc1155ABI,
+        provider
+      );
       tokenUri = await collectionContract.uri(item.tokenId);
     } else if (isERC721) {
-      collectionContract = new ethers.Contract(ERC721, Erc721ABI, provider);
+      collectionContract = new ethers.Contract(
+        item.nftContract,
+        Erc721ABI,
+        provider
+      );
       tokenUri = await collectionContract.tokenURI(item.tokenId);
     } else {
       tokenUri = "404";
     }
 
-    const response = await axios({
-      method: "POST",
-      url: "/pinata/getMetadata",
-      data: {
-        uri: tokenUri.replace("ipfs://", ""),
-      },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    let imageUrl = response.data.image;
-
-    if (
-      !imageUrl.startsWith(
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/"
-      )
-    ) {
-      imageUrl =
-        "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/" + imageUrl;
+    let metadata,
+      imageUrl: string = "",
+      nameUrl: string = "",
+      descriptionUrl: string = "",
+      authorUrl: string = "";
+    try {
+      const resposta = await fetch(tokenUri);
+      if (resposta.ok) {
+        metadata = await resposta.json();
+        imageUrl = metadata.image;
+        nameUrl = metadata.name;
+        descriptionUrl = metadata.description;
+        authorUrl = metadata.author;
+      } else {
+        console.error(
+          "Erro ao obter o JSON:",
+          resposta.status,
+          resposta.statusText
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao processar a requisição:");
     }
-
-    imageUrl = imageUrl.replace("ipfs://", "");
 
     return {
       itemId: item.itemId,
@@ -525,14 +555,14 @@ export async function myNFTs(): Promise<MarketItem[]> {
       nftContract: item.nftContract,
       price: item.price,
       sold: item.sold,
-      name: response.data.name,
-      author: response.data.author,
-      description: response.data.description,
+      name: nameUrl,
+      author: authorUrl,
+      description: descriptionUrl,
       image: imageUrl,
     } as MarketItem;
   });
 
   const itemsWithMetadata: MarketItem[] = await Promise.all(metadataPromises);
 
-  return itemsWithMetadata;
+  return itemsWithMetadata.reverse();
 }

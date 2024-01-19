@@ -27,6 +27,8 @@ describe("ArtChainNFT2", function () {
 
     await ArtChainNFT.mint(2, "metadata");
 
-    expect(await ArtChainNFT.uri(1)).to.equal("ipfs://metadata");
+    expect(await ArtChainNFT.uri(1)).to.equal(
+      "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/metadata"
+    );
   });
 });

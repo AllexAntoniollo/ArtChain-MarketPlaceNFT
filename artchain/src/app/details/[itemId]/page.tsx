@@ -14,17 +14,22 @@ export default function Details() {
   const [message, setMessage] = useState<NewMessage>({} as NewMessage);
 
   useEffect(() => {
-    if (itemId) {
-      getDetails(Number(itemId))
-        .then((nft) => {
+    const fetchData = async () => {
+      try {
+        if (itemId) {
+          const nft = await getDetails(Number(itemId));
           if (Object.keys(nft).length === 0) {
             window.location.href = "/";
           } else {
             setNft(nft);
           }
-        })
-        .catch((err) => console.log(err.msg));
-    }
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
   }, [itemId]);
 
   async function buy() {
@@ -58,7 +63,7 @@ export default function Details() {
         <div
           style={{
             margin: "0 auto",
-            backgroundImage: `url(/pinata/getImage?uri=${nft.image})`,
+            backgroundImage: nft.image === undefined ? "" : `url(${nft.image})`,
             backgroundSize: "100%",
           }}
           className="absolute dark:border-neutral-400 bg-white dark:bg-neutral-600 left-1/2 bg-center bg-no-repeat bg-contain  -translate-y-3/4 -translate-x-1/2 rounded w-96 h-96 border border-black"

@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract ArtChainNFT2 is ERC1155 {
     uint256 private _nextTokenId = 0;
-    string public constant BASE_URL = "ipfs://";
+    string public constant BASE_URL = "https://amaranth-occasional-crane-340.mypinata.cloud/ipfs/";
     mapping(uint => string) private _tokenURIs;
     constructor()
         ERC1155(BASE_URL)
