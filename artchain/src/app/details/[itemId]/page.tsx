@@ -69,7 +69,7 @@ export default function Details() {
           className="absolute dark:border-neutral-400 bg-white dark:bg-neutral-600 left-1/2 bg-center bg-no-repeat bg-contain  -translate-y-3/4 -translate-x-1/2 rounded w-96 h-96 border border-black"
         ></div>
         <div className="flex text-purple-950 dark:text-purple-600 p-40 flex-col mt-24 items-center">
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-4xl font-bold w-full text-center">
             {nft.name} #{String(nft.tokenId)}
           </h1>
           <p className=" font-light mt-2">By: {nft.author}</p>

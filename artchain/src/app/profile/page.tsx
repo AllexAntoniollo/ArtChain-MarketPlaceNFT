@@ -90,7 +90,7 @@ export default function Profile() {
         </div>
       </section>
       <section className="pb-10">
-        <div className="flex mx-16 py-5">
+        <div className="flex mx-16 sm:mx-4 py-5">
           <h1
             onClick={() => changeCategory(profileNFTs.Collectibles)}
             className={

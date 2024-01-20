@@ -1,10 +1,10 @@
 "use client";
-import { NewNFT721, uploadAndCreate } from "@/services/Web3Service";
+import { NewNFT, uploadAndCreate } from "@/services/Web3Service";
 import { ChangeEvent, useState } from "react";
 import { NewMessage, Message } from "@/components/message";
 
 export default function Mint721() {
-  const [nft, setNft] = useState<NewNFT721>({} as NewNFT721);
+  const [nft, setNft] = useState<NewNFT>({} as NewNFT);
   const [message, setMessage] = useState<NewMessage>({} as NewMessage);
 
   function onInputChange(
@@ -70,8 +70,8 @@ export default function Mint721() {
           </div>
         </div>
       </section>
-      <section className="align justify-center py-10 bg-green-400 dark:bg-green-800 flex">
-        <div className="flex px-10 flex-col w-1/2 rounded items-center py-4 bg-white dark:bg-neutral-700 dark:border-neutral-400 relative bottom-20 border">
+      <section className="align justify-center py-10 px-6 bg-green-400 dark:bg-green-800 flex">
+        <div className="flex px-10 flex-col md:w-full w-1/2 rounded items-center py-4 bg-white dark:bg-neutral-700 dark:border-neutral-400 relative bottom-20 border">
           <h1 className="text-2xl dark:text-neutral-200">Create Your NFT</h1>
           <input
             onChange={onInputChange}

@@ -7,8 +7,8 @@ import { TfiCloud } from "react-icons/tfi";
 export default function Sell() {
   return (
     <main className="dark:bg-neutral-900">
-      <section className=" flex">
-        <form className="p-16 dark:text-neutral-300 w-1/2">
+      <section className="flex sm:flex-col">
+        <form className="p-16 sm:p-8 dark:text-neutral-300 sm:w-full w-1/2">
           <h1 className="text-5xl mb-14 font-medium">
             <TfiCloud className="mr-4 inline"></TfiCloud>Sell your NFT
           </h1>

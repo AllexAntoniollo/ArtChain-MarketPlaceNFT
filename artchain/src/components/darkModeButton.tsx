@@ -14,7 +14,7 @@ export default function darkModeButton() {
 
   return (
     <div
-      className={`bg-purple-900 dark:bg-purple-700 p-1 w-16 rounded-full cursor-pointer relative`}
+      className={`bg-purple-900 sm:mt-3 dark:bg-purple-700 p-1 w-16 rounded-full cursor-pointer relative`}
       onClick={toggleModoClaro}
     >
       <div

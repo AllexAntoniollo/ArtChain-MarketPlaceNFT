@@ -7,8 +7,8 @@ import { TfiCloud } from "react-icons/tfi";
 export default function Mint() {
   return (
     <main className="dark:bg-neutral-900">
-      <section className=" flex">
-        <form className="p-16 dark:text-neutral-300 w-1/2">
+      <section className="flex sm:flex-col">
+        <form className="p-16 sm:p-8 dark:text-neutral-300 w-1/2 sm:w-full">
           <h1 className="text-5xl mb-14 font-medium">
             <TfiCloud className="mr-4 inline"></TfiCloud>Create your NFT
           </h1>
@@ -47,11 +47,10 @@ export default function Mint() {
           style={{
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
-            backgroundPosition: "center",
             backgroundImage:
               "url('https://cdn.pixabay.com/photo/2022/04/20/12/16/abstract-art-7145098_1280.jpg')",
           }}
-          className="w-1/2"
+          className="w-1/2 lg:bg-left bg-center"
         ></div>
       </section>
     </main>

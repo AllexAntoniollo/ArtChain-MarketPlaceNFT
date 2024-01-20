@@ -45,12 +45,12 @@ export default function Home() {
         id="nfts"
         className="rounded-md mx-9  dark:border-neutral-600 border p-8"
       >
-        <div className="border-b dark:border-neutral-600 pb-3 flex justify-between">
-          <div className="text-3xl dark:text-neutral-300 flex font-medium">
+        <div className="border-b dark:border-neutral-600 pb-3 sm:flex-col sm:items-center flex justify-between">
+          <div className="text-3xl  dark:text-neutral-300 flex font-medium">
             <FaFire></FaFire>
-            <p className="ml-4 ">Latest NFTs</p>
+            <p className="ml-4">Latest NFTs</p>
           </div>
-          <div className="relative dark:text-neutral-700">
+          <div className="relative sm:mt-3 dark:text-neutral-700">
             <input
               onChange={onSearchChange}
               className="ease-linear duration-150  dark:bg-neutral-200 rounded-xl dark:border-neutral-600 border p-2 pl-8 outline-none focus:border-purple-900 shadow-sl hover:shadow-lg"
@@ -63,7 +63,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-around mt-6">
+        <div className="flex  flex-wrap justify-around mt-6">
           {nftsl && nftsl.length ? (
             nftsl.map((nft: MarketItem, index) => (
               <>

@@ -37,8 +37,8 @@ export default function Sell721s() {
   }
   return (
     <main>
-      <section className="align bg-custom justify-center py-10 flex">
-        <div className="flex px-10 flex-col rounded w-1/2 items-center py-4 dark:bg-neutral-700 dark:border-neutral-400 bg-white border">
+      <section className="align bg-custom justify-center py-10 px-6 flex">
+        <div className="flex px-10 flex-col  sm:w-full  rounded w-1/2 items-center py-4 dark:bg-neutral-700 dark:border-neutral-400 bg-white border">
           <h1 className="text-2xl">Sell Your NFT</h1>
           <input
             type="text"

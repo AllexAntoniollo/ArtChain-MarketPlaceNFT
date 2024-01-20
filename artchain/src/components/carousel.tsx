@@ -17,7 +17,6 @@ const Carousel = () => {
   const [carouselSize, setCarouselSize] = useState({ width: 0, height: 0 });
   const carouselRef = useRef(null);
 
-  // useEffect to get the initial carousel size
   useEffect(() => {
     let elem = carouselRef.current as unknown as HTMLDivElement;
     let { width, height } = elem.getBoundingClientRect();
@@ -68,12 +67,12 @@ const Carousel = () => {
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
           }}
-          className={`flex mx-9 bg-yellow-400 relative rounded-xl p-16`}
+          className={`flex mx-9 sm:flex-col sm:items-center sm:px-7 bg-yellow-400 relative rounded-xl p-16`}
         >
           {" "}
           <div
             style={{ height: "500px" }}
-            className="w-2/4  rounded-md overflow-hidden relative"
+            className="w-2/4 md:w-full  rounded-md overflow-hidden relative"
           >
             <div
               ref={carouselRef}
@@ -98,7 +97,7 @@ const Carousel = () => {
             </div>
           </div>
           {currentImg === 0 ? (
-            <div className="ml-16 w-2/4">
+            <div className="ml-16 sm:ml-0 md:w-full w-2/4">
               <h1 className="text-4xl mt-24">
                 The Art Chain Marketplace is LIVE
               </h1>
@@ -106,16 +105,16 @@ const Carousel = () => {
                 The new and modern NFT marketplace on Polygon, powered by Allex
                 Antoniollo. Buy, mint, and sell your Polygon NFTs today!
               </p>
-              <div className="mt-12">
+              <div className="mt-12 sm:mt-5 items-center sm:flex sm:flex-col">
                 <Link
                   href="/mint"
-                  className="bg-gray-900 ease-linear duration-150 hover:bg-black rounded-xl text-md text-white cursor-pointer px-7 py-3"
+                  className="bg-gray-900 max-w-44 text-center ease-linear duration-150 hover:bg-black rounded-xl text-md text-white cursor-pointer px-7 py-3"
                 >
                   MINT NFT
                 </Link>
                 <Link
                   href="/sell"
-                  className="bg-yellow-500 hover:bg-yellow-600 ease-linear duration-150  rounded-xl text-md cursor-pointer px-7 py-3 ml-6"
+                  className="bg-yellow-500 max-w-44 text-center sm:ml-0 sm:mt-3 hover:bg-yellow-600 ease-linear duration-150  rounded-xl text-md cursor-pointer px-7 py-3 ml-6"
                 >
                   SELL
                 </Link>
@@ -125,7 +124,7 @@ const Carousel = () => {
             ""
           )}
           {currentImg === 1 ? (
-            <div className="ml-16 w-2/4">
+            <div className="ml-16 sm:ml-0 md:w-full w-2/4">
               <h1 className="text-4xl mt-24">
                 ERC721 x ERC 1155 versions is here
               </h1>
@@ -134,16 +133,16 @@ const Carousel = () => {
                 assets with ArtChain Marketplace, where innovation meets
                 artistry.
               </p>
-              <div className="mt-12">
+              <div className="mt-12 sm:mt-5 items-center sm:flex sm:flex-col">
                 <Link
                   href="/mint"
-                  className="bg-gray-900 ease-linear duration-150 hover:bg-black rounded-xl text-md text-white cursor-pointer px-7 py-3"
+                  className="bg-gray-900 max-w-44 text-center ease-linear duration-150 hover:bg-black rounded-xl text-md text-white cursor-pointer px-7 py-3"
                 >
                   MINT NFT
                 </Link>
                 <Link
                   href="/sell"
-                  className="bg-gray-100 opacity-90 ease-linear duration-150 hover:bg-gray-200 rounded-xl text-md cursor-pointer px-7 py-3 ml-6"
+                  className="bg-gray-100 max-w-44 text-center sm:ml-0 sm:mt-3 opacity-90 ease-linear duration-150 hover:bg-gray-200 rounded-xl text-md cursor-pointer px-7 py-3 ml-6"
                 >
                   SELL
                 </Link>
@@ -153,22 +152,22 @@ const Carousel = () => {
             ""
           )}
           {currentImg === 2 ? (
-            <div className="ml-16 w-2/4">
+            <div className="ml-16 sm:ml-0 md:w-full w-2/4">
               <h1 className="text-4xl mt-24">The Mintle Marketplace</h1>
               <p className="mt-10 text-xl">
                 At ArtChain, we empower artists to transform their creativity
                 into unique and verifiable digital assets.
               </p>
-              <div className="mt-12">
+              <div className="mt-12 sm:mt-5 items-center sm:flex sm:flex-col">
                 <Link
                   href="/mint"
-                  className="bg-gray-900 ease-linear duration-150 hover:bg-black rounded-xl text-md text-white cursor-pointer px-7 py-3"
+                  className="bg-gray-900 max-w-44 text-center ease-linear duration-150 hover:bg-black rounded-xl text-md text-white cursor-pointer px-7 py-3"
                 >
                   MINT NFT
                 </Link>
                 <Link
                   href="/sell"
-                  className="bg-blue-500 ease-linear duration-150 hover:bg-blue-600 rounded-xl text-md cursor-pointer px-7 py-3 ml-6"
+                  className="bg-blue-500 max-w-44 text-center sm:ml-0 sm:mt-3 ease-linear duration-150 hover:bg-blue-600 rounded-xl text-md cursor-pointer px-7 py-3 ml-6"
                 >
                   SELL
                 </Link>
